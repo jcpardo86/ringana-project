@@ -2104,7 +2104,6 @@ firebase.initializeApp(firebaseConfig);
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
-
 function subirBackupAFirebase() {
     const backup = {
         productos,
@@ -2131,7 +2130,6 @@ function subirBackupAFirebase() {
         console.error('Error subiendo backup:', error);
     });
 }
-
 
     window.onload = function() {
         // 1. Configurar la fecha actual como valor por defecto en el campo de fecha de venta
