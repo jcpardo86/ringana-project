@@ -61,8 +61,10 @@
         #buscadorVentas:focus {
             border-color: #3182ce; /* Cambia el color del borde al enfocarse */
         }
-
-    </style>
+</style>
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-storage.js"></script>
 
 </head>
 <body class="bg-white p-6 rounded-lg shadow-md">
@@ -528,7 +530,10 @@
             ⬆️ Volver Arriba
         </button>
     </div>
-
+    <button onclick="subirBackupAFirebase()" class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600">
+        ☁️ Subir Backup a Firebase
+    </button>
+    
 </div>
 
 
@@ -2080,7 +2085,54 @@ let orden = 'reciente'; // Orden por defecto
         // Liberar el objeto URL
         URL.revokeObjectURL(url);
     }
-    
+    const firebaseConfig = {
+        apiKey: "AIzaSyC1D6o52R9eLzZBImfxer9QoE050XMIBys",
+        authDomain: "ringana-dbc59.firebaseapp.com",
+        projectId: "ringana-dbc59",
+        storageBucket: "ringana-dbc59.firebasestorage.app",
+        messagingSenderId: "23497738168",
+        appId: "1:23497738168:web:415186e48b1d7968ce314d",
+        measurementId: "G-7TKM5BCZGV"
+        };
+
+firebase.initializeApp(firebaseConfig);
+    const storage = firebase.storage();
+    const auth = firebase.auth();
+    auth.signInAnonymously().catch(error => console.error('Error autenticando:', error));
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+
+function subirBackupAFirebase() {
+    const backup = {
+        productos,
+        clientas,
+        bonos,
+        ventas,
+        socios,
+        puntos,
+        periodos
+    };
+
+    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+
+    // Ruta en Firebase Storage
+    const storageRef = storage.ref(`backups/backup_${Date.now()}.json`);
+
+    // Subir el archivo
+    storageRef.put(blob).then(snapshot => {
+        alert('✅ Backup subido exitosamente a Firebase Storage!');
+        snapshot.ref.getDownloadURL().then(url => {
+            console.log('URL del archivo:', url);
+        });
+    }).catch(error => {
+        console.error('Error subiendo backup:', error);
+    });
+}
+
+
     window.onload = function() {
         // 1. Configurar la fecha actual como valor por defecto en el campo de fecha de venta
         const hoy = new Date();
@@ -2124,6 +2176,4 @@ let orden = 'reciente'; // Orden por defecto
         <p>Desarrollado con 💻 y ❤️ para organizar tus ventas de manera eficiente.</p>
     </div>
 </footer>
-
-
 </html>
