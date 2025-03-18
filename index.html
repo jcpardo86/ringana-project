@@ -2133,6 +2133,8 @@ function subirBackupAFirebase() {
         console.error('Error subiendo backup:', error);
     });
 }
+// Guardar copia cada 10 minutos
+setInterval(subirBackupAFirebase, 10 * 60 * 1000);
 
     window.onload = function() {
         // 1. Configurar la fecha actual como valor por defecto en el campo de fecha de venta
