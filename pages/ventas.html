@@ -45,16 +45,18 @@
           <div class="mb-4">
             <label for="selectClientas" class="block font-medium mb-1">👩‍🦰 Clientas</label>
             <select id="selectClientas" multiple class="w-full border p-3 rounded-md focus:ring-2 focus:ring-blue-500">
-              <!-- Opciones generadas dinámicamente -->
+              <option disabled selected>-- Cargando clientas... --</option>
             </select>
             <small class="text-gray-500">* Mantén presionado Ctrl (o Cmd en Mac) para seleccionar varias.</small>
+            <div id="mensaje-clientas" class="text-red-500 text-sm mt-1 hidden">⚠️ No hay clientas registradas.</div>
           </div>
 
           <div class="mb-4">
             <label for="selectProductos" class="block font-medium mb-1">🛍️ Productos</label>
             <select id="selectProductos" multiple class="w-full border p-3 rounded-md focus:ring-2 focus:ring-blue-500">
-              <!-- Opciones generadas dinámicamente -->
+              <option disabled selected>-- Cargando productos... --</option>
             </select>
+            <div id="mensaje-productos" class="text-red-500 text-sm mt-1 hidden">⚠️ No hay productos disponibles.</div>
           </div>
 
           <div id="puntosPorProductoContainer" class="mb-4">
@@ -64,8 +66,9 @@
           <div class="mb-4">
             <label for="selectBonos" class="block font-medium mb-1">🎁 Bonos</label>
             <select id="selectBonos" class="w-full border p-3 rounded-md focus:ring-2 focus:ring-blue-500">
-              <!-- Opciones generadas dinámicamente -->
+              <option disabled selected>-- Cargando bonos... --</option>
             </select>
+            <div id="mensaje-bonos" class="text-red-500 text-sm mt-1 hidden">⚠️ No hay bonos disponibles.</div>
           </div>
 
           <div class="mb-6">
@@ -124,6 +127,53 @@
         if (container) container.innerHTML = html;
       })
       .catch(err => console.error("No se pudo cargar el menú:", err));
+  </script>
+
+  <!-- Inicialización asegurada -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const fechaEl = document.getElementById('fechaVenta');
+      if (fechaEl) {
+        const hoy = new Date();
+        fechaEl.value = hoy.toISOString().split('T')[0];
+      }
+
+      // Cargar selects
+      if (typeof actualizarSelectClientas === 'function') {
+        actualizarSelectClientas();
+        const clientas = JSON.parse(localStorage.getItem('clientas')) || [];
+        if (clientas.length === 0) document.getElementById('mensaje-clientas')?.classList.remove('hidden');
+      }
+
+      if (typeof actualizarSelectProductos === 'function') {
+        actualizarSelectProductos();
+        const productos = JSON.parse(localStorage.getItem('productos')) || [];
+        if (productos.length === 0) document.getElementById('mensaje-productos')?.classList.remove('hidden');
+        document.getElementById('selectProductos')?.addEventListener('change', actualizarPuntosPorProducto);
+      }
+
+      if (typeof actualizarSelectBonos === 'function') {
+        actualizarSelectBonos();
+        const bonos = JSON.parse(localStorage.getItem('bonos')) || [];
+        if (bonos.length === 0) document.getElementById('mensaje-bonos')?.classList.remove('hidden');
+      }
+
+      if (typeof mostrarVentas === 'function') {
+        mostrarVentas();
+      }
+
+      if (typeof cargarPeriodosEnSelector === 'function') {
+        cargarPeriodosEnSelector('selectPeriodoActual');
+      }
+
+      if (typeof actualizarDatosPeriodoActual === 'function') {
+        actualizarDatosPeriodoActual();
+      }
+
+      if (typeof actualizarDashboard === 'function') {
+        actualizarDashboard();
+      }
+    });
   </script>
 
   <!-- Script principal -->
