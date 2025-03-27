@@ -1,67 +1,55 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ringana Partner Sales</title>
+
   <!-- Tailwind CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <!-- Archivo de estilos externo -->
-  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+
+  <!-- Estilos personalizados -->
+  <link rel="stylesheet" href="/ringana-project/style.css" />
 </head>
 <body class="bg-white p-6 rounded-lg shadow-md">
-  <div class="container">
+  <div class="container mx-auto max-w-4xl">
+    
     <!-- Encabezado -->
     <header class="mb-8">
-      <h1 class="text-4xl text-center font-bold"></h1>
-      <a href="index.html">
+      <h1 class="text-4xl text-center font-bold">Ringana Partner Sales</h1>
+      <a href="/ringana-project/index.html">
         <figure class="text-center">
-          <img src="/ringana-project/img/logo.png" alt="Logo de Ringana Sales" class="w-64 h-64 mx-auto mt-4">
+          <img src="/ringana-project/img/logo.png" alt="Logo de Ringana Sales" class="w-64 h-64 mx-auto mt-4" />
         </figure>
       </a>
     </header>
-    
-    <!-- Menú de navegación común -->
-    <nav class="bg-gray-100 p-4 rounded-lg shadow-md mb-6">
-      <ul class="flex flex-wrap justify-center gap-4">
-        <li>
-          <a href="pages/ventas.html" class="bg-gray-200 text-gray-800 py-2 px-6 rounded-lg hover:bg-gray-300">
-            💼 Ventas
-          </a>
-        </li>
-        <li>
-          <a href="pages/recursos.html" class="bg-gray-200 text-gray-800 py-2 px-6 rounded-lg hover:bg-gray-300">
-            👩‍🦰 Recursos
-          </a>
-        </li>
-        <li>
-          <a href="pages/dashboard.html" class="bg-gray-200 text-gray-800 py-2 px-6 rounded-lg hover:bg-gray-300">
-            📊 Dashboard
-          </a>
-        </li>
-        <li>
-          <a href="pages/datos.html" class="bg-gray-200 text-gray-800 py-2 px-6 rounded-lg hover:bg-gray-300">
-            📂 Datos
-          </a>
-        </li>
-      </ul>
-    </nav>
-    
-    <!-- Contenido de bienvenida -->
+
+    <!-- Menú cargado dinámicamente -->
+    <div id="menu-container" class="mb-6"></div>
+
+    <!-- Contenido principal -->
     <section class="text-center">
       <p class="text-lg">
-        Bienvenido a la aplicación Control de Ventas. Selecciona una sección para comenzar.
+        Bienvenido a la aplicación <strong>Control de Ventas</strong>. Selecciona una sección para comenzar.
       </p>
     </section>
-  </div>
-  <script src="script.js">
-    const menuPath = location.pathname.includes('/pages/') ? '../menu.html' : 'menu.html';
 
-fetch(menuPath)
-  .then(res => res.text())
-  .then(html => {
-    document.getElementById('menu-container').innerHTML = html;
-  });
+  </div>
+
+  <!-- Script: cargar menú desde /pages/modulos/menu.html -->
+  <script>
+    const menuPath = "/ringana-project/pages/modulos/menu.html";
+
+    fetch(menuPath)
+      .then(res => res.text())
+      .then(html => {
+        const container = document.getElementById("menu-container");
+        if (container) container.innerHTML = html;
+      })
+      .catch(error => console.error("No se pudo cargar el menú:", error));
   </script>
+
+  <!-- Script general de la app -->
+  <script src="/ringana-project/script.js"></script>
 </body>
 </html>

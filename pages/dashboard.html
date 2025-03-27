@@ -1,102 +1,109 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard - Control de Ventas</title>
+
   <!-- Tailwind CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <!-- Archivo de estilos externo -->
-  <link rel="stylesheet" href="/style.css">
-  <script src="https://apis.google.com/js/api.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/ringana-project/style.css" />
+
+  <!-- Librerías externas -->
+  <script src="https://apis.google.com/js/api.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 </head>
+
 <body class="bg-white p-6">
-  <div class="container mx-auto">
+  <div class="container mx-auto max-w-6xl">
+
     <!-- Encabezado -->
     <header class="mb-8 text-center">
-      <h1 class="text-4xl font-bold">Ringana Sales</h1>
-      <a href="/index.html">
+      <h1 class="text-4xl font-bold text-gray-800">Ringana Sales</h1>
+      <a href="/ringana-project/index.html" title="Volver al inicio">
         <figure class="mt-4">
-          <img src="/ringana-project/img/logo.png" alt="Logo de Ringana Sales" class="w-64 h-64 mx-auto">
+          <img src="/ringana-project/img/logo.png" alt="Logo de Ringana Sales" class="w-64 h-64 mx-auto" />
         </figure>
       </a>
     </header>
 
-    <!-- Menú de navegación común -->
-    <div id="menu-container"></div>
+    <!-- Menú dinámico -->
+    <div id="menu-container" class="mb-6"></div>
 
-    
-    <h1 class="text-4xl text-center font-bold mb-6">📊 Dashboard</h1>
-    
-    <!-- Indicadores clave -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-      <div class="bg-white p-4 rounded shadow">
-        <h3 class="text-lg font-bold">💰 Ventas Totales</h3>
-        <p id="ventasTotales" class="text-2xl">0</p>
-      </div>
-      <div class="bg-white p-4 rounded shadow">
-        <h3 class="text-lg font-bold">🏆 Meta Alcanzada</h3>
-        <p id="metaAlcanzada" class="text-2xl">0%</p>
-      </div>
-      <div class="bg-white p-4 rounded shadow">
-        <h3 class="text-lg font-bold">⭐ Producto Más Vendido</h3>
-        <p id="productoMasVendido" class="text-2xl">N/A</p>
-      </div>
-    </div>
-    
-    <!-- Sección META -->
-    <section id="meta" class="mb-8 bg-gray-100 p-6 rounded-lg shadow-md">
-      <h2 class="text-2xl font-bold text-center mb-6">🏆 META</h2>
-      <div class="bg-gray-50 p-4 rounded-lg shadow-inner">
-        <ul class="list-disc pl-5 text-gray-800 space-y-2 text-lg">
-          <li>
-            <span class="font-semibold text-blue-600">Meta Alcanzada:</span>
-            <span id="resultadoMeta">0 (VC: 0, VE: 0)</span>
-          </li>
-          <li>
-            <span class="font-semibold text-green-600">Puntos restantes:</span>
-            <span id="resultadoPuntosRestantes">0 VC / 0 VE</span>
-          </li>
-          <li>
-            <span class="font-semibold text-yellow-500">Progreso a mitad del periodo:</span>
-            <span id="progresoMitadPeriodo">0 / 0</span>
-          </li>
-          <li>
-            <span class="font-semibold text-red-500">Días restantes:</span>
-            <span id="diasRestantes">0</span>
-          </li>
+    <main>
+
+      <!-- Título principal -->
+      <h2 class="text-4xl text-center font-bold text-blue-700 mb-10">📊 Dashboard</h2>
+
+      <!-- Indicadores clave -->
+      <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-10">
+        <div class="bg-gradient-to-r from-green-200 to-green-400 text-gray-800 p-6 rounded-lg shadow-md">
+          <h3 class="text-lg font-bold mb-2">💰 Ventas Totales</h3>
+          <p id="ventasTotales" class="text-3xl font-bold">0</p>
+        </div>
+        <div class="bg-gradient-to-r from-yellow-200 to-yellow-400 text-gray-800 p-6 rounded-lg shadow-md">
+          <h3 class="text-lg font-bold mb-2">🏆 Meta Alcanzada</h3>
+          <p id="metaAlcanzada" class="text-3xl font-bold">0%</p>
+        </div>
+        <div class="bg-gradient-to-r from-blue-200 to-blue-400 text-gray-800 p-6 rounded-lg shadow-md">
+          <h3 class="text-lg font-bold mb-2">⭐ Producto Más Vendido</h3>
+          <p id="productoMasVendido" class="text-3xl font-bold">N/A</p>
+        </div>
+      </section>
+
+      <!-- Progreso hacia la Meta -->
+      <section id="meta" class="mb-10 bg-gray-100 p-6 rounded-lg shadow-inner">
+        <h2 class="text-2xl font-bold text-center mb-6">🏆 Progreso de la Meta</h2>
+        <ul class="list-disc pl-5 text-gray-800 space-y-2 text-lg mb-6">
+          <li><span class="font-semibold text-blue-600">Meta Alcanzada:</span> <span id="resultadoMeta">0 (VC: 0, VE: 0)</span></li>
+          <li><span class="font-semibold text-green-600">Puntos restantes:</span> <span id="resultadoPuntosRestantes">0 VC / 0 VE</span></li>
+          <li><span class="font-semibold text-yellow-500">Progreso a mitad del periodo:</span> <span id="progresoMitadPeriodo">0 / 0</span></li>
+          <li><span class="font-semibold text-red-500">Días restantes:</span> <span id="diasRestantes">0</span></li>
         </ul>
-        <div class="mt-6 mb-4">
-          <h4 class="text-lg font-semibold mb-2">Progreso hacia la Meta:</h4>
-          <div class="barra-container">
-            <div class="w-full bg-gray-300 rounded-full h-6">
-              <div id="barraProgreso" class="bg-green-400 h-6 rounded-full"></div>
-            </div>
-            <div class="texto-progreso mb-2" id="textoProgreso"></div>
+
+        <!-- Barra de progreso -->
+        <div class="mt-4">
+          <h4 class="text-lg font-semibold mb-2">Progreso total:</h4>
+          <div class="w-full bg-gray-300 rounded-full h-6 relative">
+            <div id="barraProgreso" class="absolute top-0 left-0 h-6 bg-green-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+          </div>
+          <p id="textoProgreso" class="text-sm text-center mt-2 font-medium text-gray-700">0%</p>
+        </div>
+      </section>
+
+      <!-- Gráficos -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-bold text-center text-gray-700 mb-6">📈 Gráficos de Desempeño</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="bg-white p-4 rounded-lg shadow-md">
+            <h3 class="text-lg font-semibold text-center mb-4">🗓️ Ventas Mensuales</h3>
+            <canvas id="ventasMensualesChart" height="200"></canvas>
+          </div>
+          <div class="bg-white p-4 rounded-lg shadow-md">
+            <h3 class="text-lg font-semibold text-center mb-4">📦 Productos Más Vendidos</h3>
+            <canvas id="productosVendidosChart" height="200"></canvas>
           </div>
         </div>
-      </div>
-    </section>
-    
-    <!-- Gráficos -->
-    <div class="mb-6">
-      <canvas id="ventasMensualesChart" width="400" height="200"></canvas>
-    </div>
-    <div>
-      <canvas id="productosVendidosChart" width="400" height="200"></canvas>
-    </div>
-  </div>
-  <script src="/script.js"></script>
-  <script>
-const menuPath = location.pathname.includes('/pages/') ? '../menu.html' : 'menu.html';
+      </section>
 
-fetch(menuPath)
-  .then(res => res.text())
-  .then(html => {
-    document.getElementById('menu-container').innerHTML = html;
-  });
-    window.onload = function() {
+    </main>
+  </div>
+
+  <!-- Menú dinámico -->
+  <script>
+    fetch("/ringana-project/pages/modulos/menu.html")
+      .then(res => res.text())
+      .then(html => {
+        const container = document.getElementById("menu-container");
+        if (container) container.innerHTML = html;
+      })
+      .catch(err => console.error("Error al cargar el menú:", err));
+  </script>
+
+  <!-- Script de funcionalidad principal -->
+  <script src="/ringana-project/script.js"></script>
+  <script>
+    window.onload = function () {
       actualizarDashboard();
     };
   </script>
