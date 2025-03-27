@@ -55,17 +55,22 @@ function mostrarProductos() {
     div.innerHTML = `
       <span id="productoRec-span-${index}" class="flex-1">${producto.nombre}</span>
       <input id="productoRec-input-${index}" type="text" value="${producto.nombre}" class="flex-1 p-1 border rounded hidden" />
+      
       <span id="puntosRec-span-${index}" class="w-24 text-center">${producto.puntos}</span>
       <input id="puntosRec-input-${index}" type="number" min="0" value="${producto.puntos}" class="w-24 p-1 border rounded hidden" />
+      
       <span id="mesAvisoRec-span-${index}" class="w-36 text-center">${producto.mesesAviso || 0}</span>
       <input id="mesAvisoRec-input-${index}" type="number" min="0" value="${producto.mesesAviso || 0}" class="w-36 p-1 border rounded hidden" />
+      
       <button id="editarProductoRec-${index}" onclick="editarProducto(${index})" class="p-1 px-3 bg-yellow-400 text-white rounded hover:bg-yellow-500">✏️</button>
-      <button id="guardarProductoRec-${index}" onclick="guardarProducto(${index})" class="p-1 px-3 bg-green-500 text-white rounded hover:bg-green-600 hidden">💾</button>
+      <button id="guardarProductoRec-${index}" onclick="guardarProducto(${index})" class="p-1 px-3 bg-green-500 text-white rounded hidden hover:bg-green-600">💾</button>
+      <button onclick="eliminarProducto(${index})" class="p-1 px-3 bg-red-500 text-white rounded hover:bg-red-600">❌</button>
     `;
 
     contenedor.appendChild(div);
   });
 }
+
 
 
 

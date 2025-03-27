@@ -16,8 +16,6 @@
 
 <body class="bg-white p-6">
   <div class="container mx-auto max-w-5xl">
-
-    <!-- Encabezado -->
     <header class="mb-8 text-center">
       <h1 class="text-4xl font-bold text-gray-800">Ringana Sales</h1>
       <a href="/ringana-project/index.html" title="Volver al inicio">
@@ -25,24 +23,18 @@
       </a>
     </header>
 
-    <!-- Menú dinámico -->
     <div id="menu-container" class="mb-6"></div>
 
     <main>
-
-      <!-- GESTIÓN DE RECURSOS -->
       <section id="recursos" class="mb-10 bg-white p-6 rounded-xl shadow-lg">
         <h2 class="text-2xl font-bold text-center mb-8 text-gray-800">👩‍💼 Gestión de Recursos</h2>
-
         <div class="grid grid-cols-1 gap-6">
-
-          <!-- Productos -->
+          
+          <!-- PRODUCTOS -->
           <div class="bg-gray-100 p-6 rounded-lg shadow">
             <div class="flex justify-between items-center mb-4">
               <h3 class="text-xl font-semibold text-gray-700">🛍️ Productos</h3>
-              <div class="space-x-2">
-                <button onclick="toggleProductos()" id="icono-productos" class="text-gray-600 hover:text-gray-900">👁️</button>
-              </div>
+              <button onclick="toggleProductos()" id="icono-productos" class="text-gray-600 hover:text-gray-900">👁️</button>
             </div>
             <div class="flex flex-wrap gap-4 mb-4">
               <input id="nuevoProducto" type="text" placeholder="Nombre del producto" class="flex-1 p-2 border rounded-md" />
@@ -52,8 +44,8 @@
             </div>
             <div id="productos" class="hidden"></div>
           </div>
-
-          <!-- Clientas -->
+          
+          <!-- CLIENTAS -->
           <div class="bg-gray-100 p-6 rounded-lg shadow">
             <div class="flex justify-between items-center mb-4">
               <h3 class="text-xl font-semibold text-gray-700">👩‍🦰 Clientas</h3>
@@ -65,8 +57,8 @@
             </div>
             <div id="clientas" class="hidden"></div>
           </div>
-
-          <!-- Bonos -->
+          
+          <!-- BONOS -->
           <div class="bg-gray-100 p-6 rounded-lg shadow">
             <div class="flex justify-between items-center mb-4">
               <h3 class="text-xl font-semibold text-gray-700">🎁 Bonos</h3>
@@ -78,8 +70,8 @@
             </div>
             <div id="bonos" class="hidden"></div>
           </div>
-
-          <!-- Socios -->
+          
+          <!-- SOCIOS -->
           <div class="bg-gray-100 p-6 rounded-lg shadow">
             <div class="flex justify-between items-center mb-4">
               <h3 class="text-xl font-semibold text-gray-700">🤝 Socios</h3>
@@ -95,7 +87,6 @@
         </div>
       </section>
 
-      <!-- PERIODOS DE FACTURACIÓN -->
       <section id="periodos" class="mb-12 bg-white p-6 rounded-xl shadow-lg">
         <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">📅 Periodos de Facturación</h2>
 
@@ -129,7 +120,6 @@
     </main>
   </div>
 
-  <!-- Menú dinámico -->
   <script>
     fetch("/ringana-project/pages/modulos/menu.html")
       .then(res => res.text())
@@ -140,7 +130,6 @@
       .catch(err => console.error("No se pudo cargar el menú:", err));
   </script>
 
-  <!-- Script principal -->
   <script src="/ringana-project/script.js"></script>
 </body>
 </html>
