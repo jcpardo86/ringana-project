@@ -561,7 +561,6 @@ function mostrarVentas() {
   });
 }
 
-// Fragmento modificado: registrarVenta sin llamadas a Google Calendar
 function registrarVenta() {
   const fechaVenta = document.getElementById('fechaVenta').value;
   const clientasSeleccionadas = Array.from(document.getElementById('selectClientas').selectedOptions)
@@ -592,7 +591,7 @@ function registrarVenta() {
         comentario: comentarioVenta || ''
       });
 
-      // Comentado: Eventos Google Calendar
+      // Comentado: creación de eventos en Google Calendar
       /*
       const fechaEvento7 = new Date(fechaVentaObj);
       fechaEvento7.setDate(fechaEvento7.getDate() + 7);
@@ -628,22 +627,23 @@ function registrarVenta() {
   mostrarVentas();
   actualizarDatosPeriodoActual();
 
-  // Reiniciar el formulario
-  const formulario = document.getElementById('ventas-form');
+  // Limpiar formulario
+  const formulario = document.querySelector('#ventas form');
   if (formulario) formulario.reset();
   document.getElementById('puntosPorProductoContainer').innerHTML = '';
 
-  // ✅ Mostrar mensaje de éxito visual
-const boton = document.getElementById('registrarVentaBtn');
-if (boton) {
-  boton.disabled = true;
+  // Desactivar temporalmente el botón para evitar doble clic
+  const boton = document.getElementById('registrarVentaBtn');
+  if (boton) {
+    boton.disabled = true;
+    boton.style.cursor = 'wait';
+    setTimeout(() => {
+      boton.disabled = false;
+      boton.style.cursor = 'pointer';
+    }, 3000);
+  }
 
-  setTimeout(() => {
-    boton.disabled = false;
-  }, 3000); // 3 segundos para prevenir doble clic
-}
-
-
+  // Mostrar toast visual de éxito
   const toast = document.getElementById('toast-exito');
   if (toast) {
     toast.classList.remove('hidden', 'opacity-0');
@@ -655,6 +655,7 @@ if (boton) {
     }, 3000);
   }
 }
+
 
 
 function editarVenta(index) {
