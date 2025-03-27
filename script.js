@@ -165,17 +165,16 @@ function mostrarClientas() {
   if (!divClientas) return;
   divClientas.innerHTML = '';
   clientas.forEach((clienta, index) => {
-    divClientas.innerHTML += `
-      <div class="flex items-center justify-between">
-        <span id="clientaRec-span-${index}">${clienta}</span>
-        <input type="text" value="${clienta}" id="clientaRec-input-${index}" class="border p-2 hidden">
-        <div>
-          <button class="icon-button" id="editarClientaRec-${index}" onclick="editarClienta(${index})">✏️</button>
-          <button class="icon-button hidden" id="guardarClientaRec-${index}" onclick="guardarClienta(${index})">💾</button>
-          <button class="icon-button" onclick="eliminarClienta(${index})">❌</button>
-        </div>
-      </div>
+    const div = document.createElement('div');
+    div.className = 'flex flex-wrap gap-4 items-center mb-2';
+    div.innerHTML = `
+      <span id="clientaRec-span-${index}" class="flex-1">${clienta}</span>
+      <input id="clientaRec-input-${index}" type="text" value="${clienta}" class="flex-1 p-1 border rounded hidden" />
+      <button id="editarClientaRec-${index}" onclick="editarClienta(${index})" class="p-1 px-3 bg-yellow-400 text-white rounded hover:bg-yellow-500">✏️</button>
+      <button id="guardarClientaRec-${index}" onclick="guardarClienta(${index})" class="p-1 px-3 bg-green-500 text-white rounded hover:bg-green-600 hidden">💾</button>
+      <button id="eliminarClientaRec-${index}" onclick="eliminarClienta(${index})" class="p-1 px-3 bg-red-500 text-white rounded hover:bg-red-600">❌</button>
     `;
+    divClientas.appendChild(div);
   });
   actualizarSelectClientas();
 }
@@ -247,17 +246,16 @@ function mostrarBonos() {
   if (!divBonos) return;
   divBonos.innerHTML = '';
   bonos.forEach((bono, index) => {
-    divBonos.innerHTML += `
-      <div class="flex items-center justify-between">
-        <span id="bonoRec-span-${index}">${bono}</span>
-        <input type="text" value="${bono}" id="bonoRec-input-${index}" class="border p-2 hidden">
-        <div>
-          <button class="icon-button" id="editarBonoRec-${index}" onclick="editarBonoRec(${index})">✏️</button>
-          <button class="icon-button hidden" id="guardarBonoRec-${index}" onclick="guardarBonoRec(${index})">💾</button>
-          <button class="icon-button" onclick="eliminarBono(${index})">❌</button>
-        </div>
-      </div>
+    const div = document.createElement('div');
+    div.className = 'flex flex-wrap gap-4 items-center mb-2';
+    div.innerHTML = `
+      <span id="bonoRec-span-${index}" class="flex-1">${bono}</span>
+      <input id="bonoRec-input-${index}" type="text" value="${bono}" class="flex-1 p-1 border rounded hidden" />
+      <button id="editarBonoRec-${index}" onclick="editarBonoRec(${index})" class="p-1 px-3 bg-yellow-400 text-white rounded hover:bg-yellow-500">✏️</button>
+      <button id="guardarBonoRec-${index}" onclick="guardarBonoRec(${index})" class="p-1 px-3 bg-green-500 text-white rounded hover:bg-green-600 hidden">💾</button>
+      <button id="eliminarBonoRec-${index}" onclick="eliminarBono(${index})" class="p-1 px-3 bg-red-500 text-white rounded hover:bg-red-600">❌</button>
     `;
+    divBonos.appendChild(div);
   });
   actualizarSelectBonos();
 }
@@ -329,20 +327,20 @@ function mostrarSocios() {
   if (!divSocios) return;
   divSocios.innerHTML = '';
   socios.forEach((socio, index) => {
-    divSocios.innerHTML += `
-      <div class="flex items-center justify-between">
-        <span id="socioRec-span-${index}">${socio}</span>
-        <input type="text" value="${socio}" id="socioRec-input-${index}" class="border p-2 hidden">
-        <div>
-          <button class="icon-button" id="editarSocioRec-${index}" onclick="editarSocioRec(${index})">✏️</button>
-          <button class="icon-button hidden" id="guardarSocioRec-${index}" onclick="guardarSocioRec(${index})">💾</button>
-          <button class="icon-button" onclick="eliminarSocio(${index})">❌</button>
-        </div>
-      </div>
+    const div = document.createElement('div');
+    div.className = 'flex flex-wrap gap-4 items-center mb-2';
+    div.innerHTML = `
+      <span id="socioRec-span-${index}" class="flex-1">${socio}</span>
+      <input id="socioRec-input-${index}" type="text" value="${socio}" class="flex-1 p-1 border rounded hidden" />
+      <button id="editarSocioRec-${index}" onclick="editarSocioRec(${index})" class="p-1 px-3 bg-yellow-400 text-white rounded hover:bg-yellow-500">✏️</button>
+      <button id="guardarSocioRec-${index}" onclick="guardarSocioRec(${index})" class="p-1 px-3 bg-green-500 text-white rounded hover:bg-green-600 hidden">💾</button>
+      <button id="eliminarSocioRec-${index}" onclick="eliminarSocio(${index})" class="p-1 px-3 bg-red-500 text-white rounded hover:bg-red-600">❌</button>
     `;
+    divSocios.appendChild(div);
   });
   actualizarSelectSocios();
 }
+
 
 function agregarSocio() {
   const nuevoSocio = document.getElementById('nuevoSocio')?.value.trim();
