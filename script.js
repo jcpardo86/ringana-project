@@ -561,6 +561,7 @@ function mostrarVentas() {
   });
 }
 
+// Fragmento modificado: registrarVenta sin llamadas a Google Calendar
 function registrarVenta() {
   const fechaVenta = document.getElementById('fechaVenta').value;
   const clientasSeleccionadas = Array.from(document.getElementById('selectClientas').selectedOptions)
@@ -591,7 +592,8 @@ function registrarVenta() {
         comentario: comentarioVenta || ''
       });
 
-      // Eventos Google Calendar
+      // Comentado: Eventos Google Calendar
+      /*
       const fechaEvento7 = new Date(fechaVentaObj);
       fechaEvento7.setDate(fechaEvento7.getDate() + 7);
       crearEventoGoogleCalendar(
@@ -618,6 +620,7 @@ function registrarVenta() {
           "Revisar aviso calculado para reposición de producto."
         );
       }
+      */
     });
   });
 
@@ -626,11 +629,11 @@ function registrarVenta() {
   actualizarDatosPeriodoActual();
 
   // Reiniciar el formulario
-  const formulario = document.querySelector('#ventas form');
+  const formulario = document.getElementById('ventas-form');
   if (formulario) formulario.reset();
   document.getElementById('puntosPorProductoContainer').innerHTML = '';
 
-  // ✅ Mostrar mensaje de éxito visual
+  // Mensaje de exito visual
   const boton = document.getElementById('registrarVentaBtn');
   if (boton) {
     boton.disabled = true;
@@ -642,21 +645,21 @@ function registrarVenta() {
       boton.innerText = textoOriginal;
       boton.disabled = false;
       boton.classList.remove("opacity-70", "cursor-not-allowed");
-    },
-    3000);
+    }, 3000);
   }
-  // Mostrar toast visual de éxito
-const toast = document.getElementById('toast-exito');
-if (toast) {
-  toast.classList.remove('hidden', 'opacity-0');
-  toast.classList.add('opacity-100');
 
-  setTimeout(() => {
-    toast.classList.add('opacity-0');
-    setTimeout(() => toast.classList.add('hidden'), 500);
-  }, 3000);
+  const toast = document.getElementById('toast-exito');
+  if (toast) {
+    toast.classList.remove('hidden', 'opacity-0');
+    toast.classList.add('opacity-100');
+
+    setTimeout(() => {
+      toast.classList.add('opacity-0');
+      setTimeout(() => toast.classList.add('hidden'), 500);
+    }, 3000);
   }
 }
+
 
 function editarVenta(index) {
   const fila = document.getElementById('tablaVentas')?.rows[index];
@@ -1124,6 +1127,9 @@ function actualizarPuntosPorProducto() {
 
 
 // --------------------------- GOOGLE CALENDAR ---------------------------
+// Todo lo siguiente ha sido desactivado temporalmente por el usuario
+
+/* 
 function initClient() {
   gapi.client.init({
     apiKey: 'TU_API_KEY',
@@ -1142,7 +1148,6 @@ if (typeof gapi !== 'undefined') {
 } else {
   console.warn("gapi no está definido todavía");
 }
-
 
 function crearEventoGoogleCalendar(titulo, fechaInicio, descripcion) {
   if (typeof gapi === 'undefined' || !gapi.client || !gapi.client.calendar) {
@@ -1173,6 +1178,7 @@ function crearEventoGoogleCalendar(titulo, fechaInicio, descripcion) {
     console.log('Evento creado: ' + (eventoCreado.htmlLink || 'Sin enlace'));
   });
 }
+*/
 
 
 // --------------------------- INICIALIZACIÓN ---------------------------
