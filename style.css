@@ -1,33 +1,60 @@
 .large-emoji { font-size: 2rem; }
+
 .scrollable {
-    max-height: 400px; /* Limita la altura */
-    overflow-y: auto; /* Habilita el desplazamiento vertical */
-    overflow-x: auto; /* Oculta el desplazamiento horizontal para evitar movimientos laterales */
-    width: 100%; /* Mantiene el ancho completo */
-    border: 1px solid #ddd; /* Opcional: estilo del borde */
-    padding: 0.5rem; /* Opcional: espacio interno */
-    box-sizing: border-box; /* Asegura el ajuste correcto de las dimensiones */
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: auto;
+    width: 100%;
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+    box-sizing: border-box;
 }
+
 .container { max-width: 90%; margin: 0 auto; }
+
 .icon-button { background: none; border: none; cursor: pointer; padding: 0; }
+
 .hidden { display: none; }
-.toggle-button, .add-button { background-color: #3182ce; color: white; padding: 0.5rem 1rem; border-radius: 0.375rem; margin-top: 0.5rem; }
-.add-button { margin-left: 0.5rem; background-color: #38B2AC; }
-.button-container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
-.icon { font-size: 1.25rem; }
-#barraProgreso {
-    position: relative; /* Posiciona el texto dentro de la barra */
-    overflow: hidden; /* Restringe el contenido */
-    white-space: nowrap; /* Evita saltos de línea */
-    display: flex; /* Usamos flexbox para alinear el texto */
-    align-items: center; /* Centra verticalmente el texto */
-    justify-content: center; /* Centra horizontalmente el texto */
-    color: #fff; /* Color de texto por defecto */
+
+.toggle-button,
+.add-button {
+    background-color: #3182ce;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    margin-top: 0.5rem;
 }
+
+.add-button {
+    margin-left: 0.5rem;
+    background-color: #38B2AC;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.icon { font-size: 1.25rem; }
+
+#barraProgreso {
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
 .barra-container {
     position: relative;
-    margin-top: 5px; /* Asegura que el texto alternativo esté posicionado correctamente */
+    margin-top: 5px;
 }
+
 .texto-progreso {
     position: absolute;
     top: 50%;
@@ -35,27 +62,67 @@
     transform: translate(-50%, -50%);
     white-space: nowrap;
     font-weight: bold;
-    color: black; /* Cambia a un color más visible */
-    pointer-events: none; /* Evita que interfiera con los clics */
+    color: black;
+    pointer-events: none;
 }
+
 #menuList.hidden {
     display: none;
 }
+
 @media (min-width: 768px) {
     #menuList {
-        display: flex !important; /* Siempre mostrar en pantallas más grandes */
+        display: flex !important;
     }
 }
+
 #buscadorVentas {
-    border: 2px solid #e5e7eb; /* Un borde claro */
-    transition: border-color 0.3s ease; /* Suave transición */
-}
-#buscadorVentas:focus {
-    border-color: #3182ce; /* Cambia el color del borde al enfocarse */
+    border: 2px solid #e5e7eb;
+    transition: border-color 0.3s ease;
 }
 
-/* Progreso de barra de metas */
+#buscadorVentas:focus {
+    border-color: #3182ce;
+}
+
 .progreso-barra {
     width: 0%;
     transition: width 0.5s ease-in-out;
+}
+
+/* ------------------ NUEVAS CLASES DE BOTONES DE ACCIÓN ------------------ */
+.boton-editar {
+    padding: 0.25rem 0.75rem;
+    background-color: #facc15; /* amarillo-400 */
+    color: white;
+    border-radius: 0.375rem;
+    transition: background-color 0.3s ease;
+}
+
+.boton-editar:hover {
+    background-color: #eab308; /* amarillo-500 */
+}
+
+.boton-guardar {
+    padding: 0.25rem 0.75rem;
+    background-color: #22c55e; /* verde-500 */
+    color: white;
+    border-radius: 0.375rem;
+    transition: background-color 0.3s ease;
+}
+
+.boton-guardar:hover {
+    background-color: #16a34a; /* verde-600 */
+}
+
+.boton-eliminar {
+    padding: 0.25rem 0.75rem;
+    background-color: #ef4444; /* rojo-500 */
+    color: white;
+    border-radius: 0.375rem;
+    transition: background-color 0.3s ease;
+}
+
+.boton-eliminar:hover {
+    background-color: #dc2626; /* rojo-600 */
 }

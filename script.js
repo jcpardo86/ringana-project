@@ -616,6 +616,12 @@ function registrarVenta() {
       const inputPuntos = document.getElementById(`puntos-${productoNombre}`);
       const puntos = inputPuntos ? parseInt(inputPuntos.value, 10) || 0 : 0;
 
+      // Verificar si la clienta ya ha comprado este producto antes
+      const yaComproAntes = ventas.some(v =>
+        v.clienta === clienta && v.producto === productoNombre
+      );
+
+      // Agregar la venta
       ventas.push({
         fecha: fechaVenta,
         clienta: clienta,
@@ -625,35 +631,17 @@ function registrarVenta() {
         comentario: comentarioVenta || ''
       });
 
-      // Comentado: creación de eventos en Google Calendar
-      /*
-      const fechaEvento7 = new Date(fechaVentaObj);
-      fechaEvento7.setDate(fechaEvento7.getDate() + 7);
-      crearEventoGoogleCalendar(
-        `Seguimiento de envío - ${clienta} - ${productoNombre}`,
-        fechaEvento7,
-        "Revisar si el producto ha llegado."
-      );
+      // Crear evento si es la primera vez que lo compra
+      if (!yaComproAntes) {
+        const fechaEvento = new Date(fechaVentaObj);
+        fechaEvento.setDate(fechaEvento.getDate() + 3);
 
-      const fechaEvento15 = new Date(fechaVentaObj);
-      fechaEvento15.setDate(fechaEvento15.getDate() + 15);
-      crearEventoGoogleCalendar(
-        `Feedback producto - ${clienta} - ${productoNombre}`,
-        fechaEvento15,
-        "Ver cómo le ha ido el producto al cliente."
-      );
-
-      const productoObj = productos.find(p => p.nombre === productoNombre);
-      if (productoObj && productoObj.mesAviso && productoObj.mesAviso > 0) {
-        const fechaAviso = new Date(fechaVentaObj);
-        fechaAviso.setMonth(fechaAviso.getMonth() + productoObj.mesAviso);
         crearEventoGoogleCalendar(
-          `Aviso de reposición - ${clienta} - ${productoNombre}`,
-          fechaAviso,
-          "Revisar aviso calculado para reposición de producto."
+          `🎉 Primera compra - ${clienta} - ${productoNombre}`,
+          fechaEvento,
+          `Haz seguimiento a ${clienta}, ha comprado ${productoNombre} por primera vez.`
         );
       }
-      */
     });
   });
 
@@ -666,7 +654,7 @@ function registrarVenta() {
   if (formulario) formulario.reset();
   document.getElementById('puntosPorProductoContainer').innerHTML = '';
 
-  // Desactivar temporalmente el botón para evitar doble clic
+  // Desactivar botón temporalmente para evitar doble clic
   const boton = document.getElementById('registrarVentaBtn');
   if (boton) {
     boton.disabled = true;
@@ -682,14 +670,12 @@ function registrarVenta() {
   if (toast) {
     toast.classList.remove('hidden', 'opacity-0');
     toast.classList.add('opacity-100');
-
     setTimeout(() => {
       toast.classList.add('opacity-0');
       setTimeout(() => toast.classList.add('hidden'), 500);
     }, 3000);
   }
 }
-
 
 
 function editarVenta(index) {
