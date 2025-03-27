@@ -31,77 +31,87 @@
     <main>
 
       <!-- GESTIÓN DE RECURSOS -->
-      <section id="recursos" class="mb-10 bg-gray-100 p-6 rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold text-center mb-6">👩‍🦰 GESTIÓN DE RECURSOS</h2>
+      <section id="recursos" class="mb-10 bg-white p-6 rounded-xl shadow-lg">
+        <h2 class="text-2xl font-bold text-center mb-8 text-gray-800">👩‍💼 Gestión de Recursos</h2>
 
         <div class="grid grid-cols-1 gap-6">
 
           <!-- Productos -->
-          <div class="bg-gray-300 p-4 rounded-lg shadow-md">
-            <h3 class="text-xl font-semibold text-center mb-4">🛍️ Productos</h3>
-            <div class="flex flex-wrap items-center gap-4">
+          <div class="bg-gray-100 p-6 rounded-lg shadow">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-xl font-semibold text-gray-700">🛍️ Productos</h3>
+              <div class="space-x-2">
+                <button onclick="toggleProductos()" id="icono-productos" class="text-gray-600 hover:text-gray-900">👁️</button>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-4 mb-4">
               <input id="nuevoProducto" type="text" placeholder="Nombre del producto" class="flex-1 p-2 border rounded-md" />
               <input id="puntosProducto" type="number" min="0" placeholder="Puntos" class="w-24 p-2 border rounded-md" />
               <input id="mesAvisoProducto" type="number" min="0" placeholder="Meses de aviso" class="w-36 p-2 border rounded-md" />
-              <button onclick="agregarProducto()" class="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600">➕</button>
-              <button onclick="toggleProductos()" class="p-2 rounded-full bg-gray-500 text-white hover:bg-gray-600">👁️</button>
+              <button onclick="agregarProducto()" class="p-2 bg-blue-600 text-white rounded hover:bg-blue-700">➕</button>
             </div>
-            <div id="productos" class="scrollable mt-4 hidden"></div>
+            <div id="productos" class="hidden"></div>
           </div>
 
           <!-- Clientas -->
-          <div class="bg-gray-300 p-4 rounded-lg shadow-md">
-            <h3 class="text-xl font-semibold text-center mb-4">👩‍🦰 Clientas</h3>
-            <div class="flex flex-wrap items-center gap-4">
-              <input id="nuevaClienta" type="text" placeholder="Nueva clienta" class="flex-1 p-2 border rounded-md" />
-              <button onclick="agregarClienta()" class="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600">➕</button>
-              <button onclick="toggleClientas()" class="p-2 rounded-full bg-gray-500 text-white hover:bg-gray-600">👁️</button>
+          <div class="bg-gray-100 p-6 rounded-lg shadow">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-xl font-semibold text-gray-700">👩‍🦰 Clientas</h3>
+              <button onclick="toggleClientas()" id="icono-clientas" class="text-gray-600 hover:text-gray-900">👁️</button>
             </div>
-            <div id="clientas" class="scrollable mt-2 hidden"></div>
+            <div class="flex flex-wrap gap-4 mb-4">
+              <input id="nuevaClienta" type="text" placeholder="Nueva clienta" class="flex-1 p-2 border rounded-md" />
+              <button onclick="agregarClienta()" class="p-2 bg-blue-600 text-white rounded hover:bg-blue-700">➕</button>
+            </div>
+            <div id="clientas" class="hidden"></div>
           </div>
 
           <!-- Bonos -->
-          <div class="bg-gray-300 p-4 rounded-lg shadow-md">
-            <h3 class="text-xl font-semibold text-center mb-4">🎁 Bonos</h3>
-            <div class="flex flex-wrap items-center gap-4">
-              <input id="nuevoBono" type="text" placeholder="Nuevo bono" class="flex-1 p-2 border rounded-md" />
-              <button onclick="agregarBono()" class="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600">➕</button>
-              <button onclick="toggleBonos()" class="p-2 rounded-full bg-gray-500 text-white hover:bg-gray-600">👁️</button>
+          <div class="bg-gray-100 p-6 rounded-lg shadow">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-xl font-semibold text-gray-700">🎁 Bonos</h3>
+              <button onclick="toggleBonos()" id="icono-bonos" class="text-gray-600 hover:text-gray-900">👁️</button>
             </div>
-            <div id="bonos" class="scrollable mt-2 hidden"></div>
+            <div class="flex flex-wrap gap-4 mb-4">
+              <input id="nuevoBono" type="text" placeholder="Nuevo bono" class="flex-1 p-2 border rounded-md" />
+              <button onclick="agregarBono()" class="p-2 bg-blue-600 text-white rounded hover:bg-blue-700">➕</button>
+            </div>
+            <div id="bonos" class="hidden"></div>
           </div>
 
           <!-- Socios -->
-          <div class="bg-gray-300 p-4 rounded-lg shadow-md">
-            <h3 class="text-xl font-semibold text-center mb-4">🤝 Socios</h3>
-            <div class="flex flex-wrap items-center gap-4">
-              <input id="nuevoSocio" type="text" placeholder="Nuevo socio" class="flex-1 p-2 border rounded-md" />
-              <button onclick="agregarSocio()" class="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600">➕</button>
-              <button onclick="toggleSocios()" class="p-2 rounded-full bg-gray-500 text-white hover:bg-gray-600">👁️</button>
+          <div class="bg-gray-100 p-6 rounded-lg shadow">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-xl font-semibold text-gray-700">🤝 Socios</h3>
+              <button onclick="toggleSocios()" id="icono-socios" class="text-gray-600 hover:text-gray-900">👁️</button>
             </div>
-            <div id="socios" class="scrollable mt-2 hidden"></div>
+            <div class="flex flex-wrap gap-4 mb-4">
+              <input id="nuevoSocio" type="text" placeholder="Nuevo socio" class="flex-1 p-2 border rounded-md" />
+              <button onclick="agregarSocio()" class="p-2 bg-blue-600 text-white rounded hover:bg-blue-700">➕</button>
+            </div>
+            <div id="socios" class="hidden"></div>
           </div>
 
         </div>
       </section>
 
       <!-- PERIODOS DE FACTURACIÓN -->
-      <section id="periodos" class="mb-12 bg-gray-100 p-6 rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold text-center mb-6">🎟️ PERIODOS DE FACTURACIÓN</h2>
+      <section id="periodos" class="mb-12 bg-white p-6 rounded-xl shadow-lg">
+        <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">📅 Periodos de Facturación</h2>
 
         <div class="flex flex-wrap gap-4 mb-4 items-center">
-          <label for="nombrePeriodo" class="text-lg font-semibold">Nombre</label>
+          <label for="nombrePeriodo" class="text-lg font-medium">Nombre</label>
           <input id="nombrePeriodo" type="text" placeholder="Ej: Marzo25" class="border p-2 rounded-md" />
-          <label for="fechaInicioPeriodo" class="text-lg font-semibold">Inicio</label>
+          <label for="fechaInicioPeriodo" class="text-lg font-medium">Inicio</label>
           <input id="fechaInicioPeriodo" type="date" class="border p-2 rounded-md" />
-          <label for="fechaFinPeriodo" class="text-lg font-semibold">Fin</label>
+          <label for="fechaFinPeriodo" class="text-lg font-medium">Fin</label>
           <input id="fechaFinPeriodo" type="date" class="border p-2 rounded-md" />
-          <button onclick="agregarPeriodo()" class="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600">➕</button>
+          <button onclick="agregarPeriodo()" class="p-2 bg-blue-600 text-white rounded hover:bg-blue-700">➕</button>
         </div>
 
-        <div class="scrollable">
-          <table class="min-w-full bg-white mt-2 border rounded-md">
-            <thead class="bg-gray-200">
+        <div class="overflow-x-auto">
+          <table class="min-w-full bg-white mt-4 border rounded-md">
+            <thead class="bg-gray-200 text-gray-700">
               <tr>
                 <th class="py-2 px-4 border">Nombre</th>
                 <th class="py-2 px-4 border">Inicio</th>
@@ -119,7 +129,7 @@
     </main>
   </div>
 
-  <!-- Cargar menú dinámico -->
+  <!-- Menú dinámico -->
   <script>
     fetch("/ringana-project/pages/modulos/menu.html")
       .then(res => res.text())
