@@ -45,6 +45,7 @@ function scrollToTop() {
 // --------------------------- GESTIÓN DE PRODUCTOS ---------------------------
 function mostrarProductos() {
   const contenedor = document.getElementById('productos');
+  if (!contenedor) return;
   contenedor.innerHTML = '';
 
   productos.forEach((producto, index) => {
@@ -52,19 +53,12 @@ function mostrarProductos() {
     div.className = 'flex flex-wrap gap-4 items-center mb-2';
 
     div.innerHTML = `
-      <!-- Nombre del producto -->
       <span id="productoRec-span-${index}" class="flex-1">${producto.nombre}</span>
       <input id="productoRec-input-${index}" type="text" value="${producto.nombre}" class="flex-1 p-1 border rounded hidden" />
-
-      <!-- Puntos -->
       <span id="puntosRec-span-${index}" class="w-24 text-center">${producto.puntos}</span>
       <input id="puntosRec-input-${index}" type="number" min="0" value="${producto.puntos}" class="w-24 p-1 border rounded hidden" />
-
-      <!-- Meses de aviso -->
       <span id="mesAvisoRec-span-${index}" class="w-36 text-center">${producto.mesesAviso || 0}</span>
       <input id="mesAvisoRec-input-${index}" type="number" min="0" value="${producto.mesesAviso || 0}" class="w-36 p-1 border rounded hidden" />
-
-      <!-- Botones -->
       <button id="editarProductoRec-${index}" onclick="editarProducto(${index})" class="p-1 px-3 bg-yellow-400 text-white rounded hover:bg-yellow-500">✏️</button>
       <button id="guardarProductoRec-${index}" onclick="guardarProducto(${index})" class="p-1 px-3 bg-green-500 text-white rounded hover:bg-green-600 hidden">💾</button>
     `;
@@ -72,6 +66,7 @@ function mostrarProductos() {
     contenedor.appendChild(div);
   });
 }
+
 
 
 function agregarProducto() {
@@ -492,6 +487,7 @@ function toggleProductos() {
   const icono = document.getElementById('icono-productos');
   if (icono) icono.textContent = icono.textContent === '👁️' ? '🙈' : '👁️';
 }
+
 
 function toggleClientas() {
   const divClientas = document.getElementById('clientas');
@@ -1126,6 +1122,8 @@ function actualizarPuntosPorProducto() {
   });
 }
 document.getElementById('selectProductos').addEventListener('change', actualizarPuntosPorProducto);
+
+
 // --------------------------- GOOGLE CALENDAR ---------------------------
 function initClient() {
   gapi.client.init({
@@ -1139,7 +1137,11 @@ function initClient() {
     console.error("Error al inicializar la API", error);
   });
 }
-gapi.load('client:auth2', initClient);
+
+if (typeof gapi !== 'undefined') {
+  gapi.load('client:auth2', initClient);
+}
+
 
 function crearEventoGoogleCalendar(titulo, fechaInicio, descripcion) {
   var evento = {
@@ -1182,11 +1184,13 @@ window.onload = function() {
   if (document.getElementById('selectClientas')) {
     actualizarSelectClientas();
   }
+  
   const selectProductosEl = document.getElementById('selectProductos');
-if (selectProductosEl && !selectProductosEl.dataset.listenerAttached) {
-  selectProductosEl.addEventListener('change', actualizarPuntosPorProducto);
-  selectProductosEl.dataset.listenerAttached = 'true'; // Evitar doble binding
-}
+  if (selectProductosEl && !selectProductosEl.dataset.listenerAttached) {
+    selectProductosEl.addEventListener('change', actualizarPuntosPorProducto);
+    selectProductosEl.dataset.listenerAttached = 'true'; // Evitar doble binding
+  }
+
 
   if (document.getElementById('selectBonos')) {
     actualizarSelectBonos();
