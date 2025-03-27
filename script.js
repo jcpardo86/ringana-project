@@ -417,20 +417,25 @@ function exportarDatos() {
 
 function importarDatos() {
   const archivo = document.getElementById('importarArchivo')?.files[0];
+  const boton = document.getElementById('botonImportar'); // asegúrate de tener este ID en tu HTML
+
   if (!archivo) {
     alert("Por favor, selecciona un archivo CSV para importar.");
     return;
   }
+
+  if (boton) {
+    boton.disabled = true;
+    boton.style.cursor = 'wait';
+  }
+
   const reader = new FileReader();
   reader.onload = function(e) {
     const contenido = e.target.result;
     const filas = contenido.split("\n").slice(1);
     filas.forEach((fila, index) => {
       const [fecha, clienta, producto, bono, puntosVal, comentario] = fila.split(",");
-      if (!fecha || !clienta || !producto || !comentario) {
-        console.warn(`Fila ${index + 2}: Datos incompletos. Esta fila será ignorada.`);
-        return;
-      }
+      if (!fecha || !clienta || !producto || !comentario) return;
       const puntosConvertidos = parseInt(puntosVal, 10) || 0;
       ventas.push({
         fecha: fecha.trim(),
@@ -441,12 +446,22 @@ function importarDatos() {
         comentario: comentario.trim()
       });
     });
+
     guardarLocalStorage();
     mostrarVentas();
     alert("Los datos del archivo han sido importados correctamente.");
   };
+
   reader.readAsText(archivo);
+
+  setTimeout(() => {
+    if (boton) {
+      boton.disabled = false;
+      boton.style.cursor = 'pointer';
+    }
+  }, 3000);
 }
+
 
 function guardarCopiaSeguridad() {
   const copiaSeguridad = { productos, clientas, bonos, ventas };
@@ -461,24 +476,40 @@ function guardarCopiaSeguridad() {
 
 function restaurarCopiaSeguridad() {
   const archivo = document.getElementById('cargarCopiaSeguridad')?.files[0];
-  if (archivo) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const contenido = e.target.result;
-      const copiaSeguridad = JSON.parse(contenido);
-      productos = copiaSeguridad.productos;
-      clientas = copiaSeguridad.clientas;
-      bonos = copiaSeguridad.bonos;
-      ventas = copiaSeguridad.ventas;
-      guardarLocalStorage();
-      mostrarProductos();
-      mostrarClientas();
-      mostrarBonos();
-      mostrarVentas();
-    };
-    reader.readAsText(archivo);
+  const boton = document.getElementById('botonRestaurar'); // pon este ID en el botón correspondiente
+
+  if (!archivo) return;
+
+  if (boton) {
+    boton.disabled = true;
+    boton.style.cursor = 'wait';
   }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const contenido = e.target.result;
+    const copiaSeguridad = JSON.parse(contenido);
+    productos = copiaSeguridad.productos;
+    clientas = copiaSeguridad.clientas;
+    bonos = copiaSeguridad.bonos;
+    ventas = copiaSeguridad.ventas;
+
+    guardarLocalStorage();
+    mostrarProductos();
+    mostrarClientas();
+    mostrarBonos();
+    mostrarVentas();
+  };
+  reader.readAsText(archivo);
+
+  setTimeout(() => {
+    if (boton) {
+      boton.disabled = false;
+      boton.style.cursor = 'pointer';
+    }
+  }, 3000);
 }
+
 
 // --------------------------- FUNCIONES DE UTILIDAD (TOGGLE, ETC.) ---------------------------
 function toggleProductos() {

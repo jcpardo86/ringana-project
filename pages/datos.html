@@ -38,29 +38,40 @@
         <h3 class="text-2xl font-bold text-center mb-6">📥 Importar / Exportar Datos</h3>
 
         <!-- Importación -->
-        <div class="mb-6">
-          <label for="importarArchivo" class="block font-medium mb-2">Importar archivo (.csv)</label>
-          <input type="file" id="importarArchivo" accept=".csv" class="border p-2 rounded w-full mb-2" />
-          <div class="flex gap-4 mt-2">
-            <button onclick="importarDatos()" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded shadow transition">📥 Importar</button>
-            <button onclick="exportarDatos()" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded shadow transition">📤 Exportar</button>
-          </div>
-        </div>
-
-        <!-- Copia de seguridad -->
-        <div>
-          <h4 class="text-xl font-semibold mb-2">💾 Copia de Seguridad</h4>
-          <label for="cargarCopiaSeguridad" class="block font-medium mb-2">Seleccionar archivo (.json)</label>
-          <input type="file" id="cargarCopiaSeguridad" accept=".json" class="border p-2 rounded w-full mb-2" />
-          <div class="flex flex-wrap gap-4 mt-2">
-            <button onclick="restaurarCopiaSeguridad()" class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded shadow transition">🔄 Restaurar</button>
-            <button onclick="guardarCopiaSeguridad()" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded shadow transition">💾 Guardar</button>
-            <button onclick="borrarLocalStorage()" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded shadow transition">🗑️ Borrar Todo</button>
-          </div>
-        </div>
-      </section>
-    </main>
+<div class="mb-6">
+  <label for="importarArchivo" class="block font-medium mb-2">Importar archivo (.csv)</label>
+  <input type="file" id="importarArchivo" accept=".csv" class="border p-2 rounded w-full mb-2" />
+  <div class="flex gap-4 mt-2">
+    <button id="botonImportar"
+            onclick="importarDatos()"
+            class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded shadow transition disabled:opacity-50 disabled:cursor-not-allowed">
+      📥 Importar CSV
+    </button>
+    <button onclick="exportarDatos()" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded shadow transition">
+      📤 Exportar
+    </button>
   </div>
+</div>
+
+<!-- Copia de seguridad -->
+<div>
+  <h4 class="text-xl font-semibold mb-2">💾 Copia de Seguridad</h4>
+  <label for="cargarCopiaSeguridad" class="block font-medium mb-2">Seleccionar archivo (.json)</label>
+  <input type="file" id="cargarCopiaSeguridad" accept=".json" class="border p-2 rounded w-full mb-2" />
+  <div class="flex flex-wrap gap-4 mt-2">
+    <button id="botonRestaurar"
+            onclick="restaurarCopiaSeguridad()"
+            class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded shadow transition disabled:opacity-50 disabled:cursor-not-allowed">
+      🔄 Restaurar
+    </button>
+    <button onclick="guardarCopiaSeguridad()" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded shadow transition">
+      💾 Guardar
+    </button>
+    <button onclick="borrarLocalStorage()" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded shadow transition">
+      🗑️ Borrar Todo
+    </button>
+  </div>
+</div>
 
   <!-- Cargar menú -->
   <script>
