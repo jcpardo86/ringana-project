@@ -25,30 +25,7 @@
     </header>
 
     <!-- Menú de navegación común -->
-    <nav class="bg-gray-100 p-4 rounded-lg shadow-md mb-6">
-      <ul class="flex flex-wrap justify-center gap-4">
-        <li>
-          <a href="ventas.html" class="bg-blue-200 text-blue-800 py-2 px-6 rounded-lg">
-            💼 Ventas
-          </a>
-        </li>
-        <li>
-          <a href="recursos.html" class="bg-gray-200 text-gray-800 py-2 px-6 rounded-lg hover:bg-gray-300">
-            👩‍🦰 Recursos
-          </a>
-        </li>
-        <li>
-          <a href="dashboard.html" class="bg-gray-200 text-gray-800 py-2 px-6 rounded-lg hover:bg-gray-300">
-            📊 Dashboard
-          </a>
-        </li>
-        <li>
-          <a href="datos.html" class="bg-gray-200 text-gray-800 py-2 px-6 rounded-lg hover:bg-gray-300">
-            📂 Datos
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <div id="menu-container"></div>
 
     <!-- Sección: Registrar Venta -->
     <section id="ventas" class="mb-8 bg-gray-100 p-6 rounded-lg shadow-md">
@@ -124,6 +101,14 @@
       </div>
     </section>
   </div>
-  <script src="/script.js"></script>
+  <script src="/script.js">
+    const menuPath = location.pathname.includes('/pages/') ? '../menu.html' : 'menu.html';
+
+fetch(menuPath)
+  .then(res => res.text())
+  .then(html => {
+    document.getElementById('menu-container').innerHTML = html;
+  });
+  </script>
 </body>
 </html>

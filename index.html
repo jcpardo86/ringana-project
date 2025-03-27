@@ -54,6 +54,14 @@
       </p>
     </section>
   </div>
-  <script src="script.js"></script>
+  <script src="script.js">
+    const menuPath = location.pathname.includes('/pages/') ? '../menu.html' : 'menu.html';
+
+fetch(menuPath)
+  .then(res => res.text())
+  .then(html => {
+    document.getElementById('menu-container').innerHTML = html;
+  });
+  </script>
 </body>
 </html>
