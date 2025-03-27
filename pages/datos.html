@@ -9,7 +9,7 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="/ringana-project/style.css" />
 
-  <!-- Google API y Chart.js -->
+  <!-- Librerías externas -->
   <script src="https://apis.google.com/js/api.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 </head>
@@ -17,7 +17,7 @@
 <body class="bg-white p-6">
   <div class="container mx-auto max-w-4xl">
 
-    <!-- Encabezado y Logo -->
+    <!-- Encabezado -->
     <header class="mb-8 text-center">
       <h1 class="text-4xl font-bold text-gray-800">Ringana Sales</h1>
       <a href="/ringana-project/index.html" title="Volver al inicio">
@@ -31,38 +31,38 @@
     <div id="menu-container" class="mb-6"></div>
 
     <main>
-      <h2 class="text-4xl text-center font-bold text-blue-700 mb-10">📂 GESTIÓN DE DATOS</h2>
+      <h2 class="text-4xl text-center font-bold text-blue-700 mb-10">📂 Gestión de Datos</h2>
 
       <!-- Importar / Exportar -->
       <section id="datos" class="mb-12 bg-gray-100 p-6 rounded-lg shadow-md">
         <h3 class="text-2xl font-bold text-center mb-6">📥 Importar / Exportar Datos</h3>
 
-        <div class="space-y-4">
-          <!-- Importar CSV -->
-          <div>
-            <label for="importarArchivo" class="block font-medium mb-1">Importar archivo (.csv)</label>
-            <input type="file" id="importarArchivo" accept=".csv" class="border p-2 rounded w-full mb-2" />
-            <button onclick="importarDatos()" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded shadow-md transition">📥 Importar</button>
-            <button onclick="exportarDatos()" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 ml-2 rounded shadow-md transition">📤 Exportar</button>
+        <!-- Importación -->
+        <div class="mb-6">
+          <label for="importarArchivo" class="block font-medium mb-2">Importar archivo (.csv)</label>
+          <input type="file" id="importarArchivo" accept=".csv" class="border p-2 rounded w-full mb-2" />
+          <div class="flex gap-4 mt-2">
+            <button onclick="importarDatos()" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded shadow transition">📥 Importar</button>
+            <button onclick="exportarDatos()" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded shadow transition">📤 Exportar</button>
           </div>
+        </div>
 
-          <!-- Copia de seguridad -->
-          <div class="mt-8">
-            <h4 class="text-xl font-semibold mb-2">💾 Copia de Seguridad</h4>
-            <label for="cargarCopiaSeguridad" class="block font-medium mb-1">Seleccionar archivo (.json)</label>
-            <input type="file" id="cargarCopiaSeguridad" accept=".json" class="border p-2 rounded w-full mb-2" />
-            <div class="flex flex-wrap gap-4 mt-2">
-              <button onclick="restaurarCopiaSeguridad()" class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded shadow-md transition">🔄 Restaurar</button>
-              <button onclick="guardarCopiaSeguridad()" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded shadow-md transition">💾 Guardar</button>
-              <button onclick="borrarLocalStorage()" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded shadow-md transition">🗑️ Borrar Todo</button>
-            </div>
+        <!-- Copia de seguridad -->
+        <div>
+          <h4 class="text-xl font-semibold mb-2">💾 Copia de Seguridad</h4>
+          <label for="cargarCopiaSeguridad" class="block font-medium mb-2">Seleccionar archivo (.json)</label>
+          <input type="file" id="cargarCopiaSeguridad" accept=".json" class="border p-2 rounded w-full mb-2" />
+          <div class="flex flex-wrap gap-4 mt-2">
+            <button onclick="restaurarCopiaSeguridad()" class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded shadow transition">🔄 Restaurar</button>
+            <button onclick="guardarCopiaSeguridad()" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded shadow transition">💾 Guardar</button>
+            <button onclick="borrarLocalStorage()" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded shadow transition">🗑️ Borrar Todo</button>
           </div>
         </div>
       </section>
     </main>
   </div>
 
-  <!-- Menú dinámico -->
+  <!-- Cargar menú -->
   <script>
     fetch("/ringana-project/pages/modulos/menu.html")
       .then(res => res.text())
@@ -70,7 +70,7 @@
         const container = document.getElementById("menu-container");
         if (container) container.innerHTML = html;
       })
-      .catch(err => console.error("Error al cargar el menú:", err));
+      .catch(err => console.error("No se pudo cargar el menú:", err));
   </script>
 
   <!-- Script principal -->

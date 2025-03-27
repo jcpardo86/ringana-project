@@ -53,3 +53,9 @@
 #buscadorVentas:focus {
     border-color: #3182ce; /* Cambia el color del borde al enfocarse */
 }
+
+/* Progreso de barra de metas */
+.progreso-barra {
+    width: 0%;
+    transition: width 0.5s ease-in-out;
+}

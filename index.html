@@ -11,20 +11,18 @@
   <!-- Estilos personalizados -->
   <link rel="stylesheet" href="/ringana-project/style.css" />
 </head>
-<body class="bg-white p-6 rounded-lg shadow-md">
+<body class="bg-white p-6">
   <div class="container mx-auto max-w-4xl">
     
     <!-- Encabezado -->
-    <header class="mb-8">
-      <h1 class="text-4xl text-center font-bold">Ringana Partner Sales</h1>
-      <a href="/ringana-project/index.html">
-        <figure class="text-center">
-          <img src="/ringana-project/img/logo.png" alt="Logo de Ringana Sales" class="w-64 h-64 mx-auto mt-4" />
-        </figure>
+    <header class="mb-8 text-center">
+      <h1 class="text-4xl font-bold text-gray-800">Ringana Partner Sales</h1>
+      <a href="/ringana-project/index.html" title="Volver al inicio">
+        <img src="/ringana-project/img/logo.png" alt="Logo de Ringana Sales" class="w-64 h-64 mx-auto mt-4" />
       </a>
     </header>
 
-    <!-- Menú cargado dinámicamente -->
+    <!-- Menú dinámico -->
     <div id="menu-container" class="mb-6"></div>
 
     <!-- Contenido principal -->
@@ -33,14 +31,11 @@
         Bienvenido a la aplicación <strong>Control de Ventas</strong>. Selecciona una sección para comenzar.
       </p>
     </section>
-
   </div>
 
-  <!-- Script: cargar menú desde /pages/modulos/menu.html -->
+  <!-- Script: cargar menú -->
   <script>
-    const menuPath = "/ringana-project/pages/modulos/menu.html";
-
-    fetch(menuPath)
+    fetch("/ringana-project/pages/modulos/menu.html")
       .then(res => res.text())
       .then(html => {
         const container = document.getElementById("menu-container");
@@ -49,7 +44,7 @@
       .catch(error => console.error("No se pudo cargar el menú:", error));
   </script>
 
-  <!-- Script general de la app -->
+  <!-- Script principal -->
   <script src="/ringana-project/script.js"></script>
 </body>
 </html>
