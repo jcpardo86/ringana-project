@@ -1121,7 +1121,6 @@ function actualizarPuntosPorProducto() {
       }
   });
 }
-document.getElementById('selectProductos').addEventListener('change', actualizarPuntosPorProducto);
 
 
 // --------------------------- GOOGLE CALENDAR ---------------------------
@@ -1184,7 +1183,7 @@ window.onload = function() {
   if (document.getElementById('selectClientas')) {
     actualizarSelectClientas();
   }
-  
+
   const selectProductosEl = document.getElementById('selectProductos');
   if (selectProductosEl && !selectProductosEl.dataset.listenerAttached) {
     selectProductosEl.addEventListener('change', actualizarPuntosPorProducto);
