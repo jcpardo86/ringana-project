@@ -32,7 +32,7 @@
 
     <main>
 
-      <!-- Registro de Venta -->
+      <!-- Sección: Registrar Venta -->
       <section id="ventas" class="mb-10 bg-gray-100 p-6 rounded-lg shadow-md">
         <h2 class="text-2xl font-bold text-center mb-6">💼 REGISTRAR VENTA</h2>
         <form action="javascript:void(0);" method="post" aria-label="Formulario para registrar una venta">
@@ -88,7 +88,7 @@
         ✅ Venta registrada con éxito
       </div>
 
-      <!-- Tabla de Ventas -->
+      <!-- Sección: Ventas Registradas -->
       <section id="registradas" class="mb-8 bg-gray-100 p-6 rounded-lg shadow-md">
         <h2 class="text-2xl font-bold text-center mb-6">📅 VENTAS REGISTRADAS</h2>
         <div class="overflow-x-auto">
@@ -119,3 +119,14 @@
   <script>
     fetch("/ringana-project/pages/modulos/menu.html")
       .then(res => res.text())
+      .then(html => {
+        const container = document.getElementById("menu-container");
+        if (container) container.innerHTML = html;
+      })
+      .catch(err => console.error("No se pudo cargar el menú:", err));
+  </script>
+
+  <!-- Script principal -->
+  <script src="/ringana-project/script.js"></script>
+</body>
+</html>
