@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Control de Ventas - Gestión de Datos</title>
+  <!-- Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Archivo de estilos externo -->
+  <link rel="stylesheet" href="/style.css">
+  <!-- Google API y Chart.js (si es necesario) -->
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-white p-6">
+  <div class="container mx-auto">
+    <!-- Encabezado y Logo -->
+    <header class="mb-8 text-center">
+      <h1 class="text-4xl font-bold">Ringana Sales</h1>
+      <a href="/index.html">
+        <figure class="mt-4">
+          <img src="/img/logo.png" alt="Logo de Ringana Sales" class="w-64 h-64 mx-auto">
+        </figure>
+      </a>
+    </header>
+    
+    <!-- Menú de navegación común -->
+    <nav class="bg-gray-100 p-4 rounded-lg shadow-md mb-6">
+      <ul class="flex flex-wrap justify-center gap-4">
+        <li>
+          <a href="/pages/ventas.html" class="bg-gray-200 text-gray-800 py-2 px-6 rounded-lg hover:bg-gray-300">
+            💼 Ventas
+          </a>
+        </li>
+        <li>
+          <a href="/pages/recursos.html" class="bg-gray-200 text-gray-800 py-2 px-6 rounded-lg hover:bg-gray-300">
+            👩‍🦰 Recursos
+          </a>
+        </li>
+        <li>
+          <a href="/pages/dashboard.html" class="bg-gray-200 text-gray-800 py-2 px-6 rounded-lg hover:bg-gray-300">
+            📊 Dashboard
+          </a>
+        </li>
+        <li>
+          <a href="/pages/datos.html" class="bg-blue-200 text-blue-800 py-2 px-6 rounded-lg">
+            📂 Datos
+          </a>
+        </li>
+      </ul>
+    </nav>
+    
+    <h1 class="text-4xl text-center font-bold mb-6">📂 GESTIÓN DE DATOS</h1>
+    
+    <!-- Sección: Importar/Exportar y Copia de Seguridad -->
+    <section id="datos" class="mb-8 bg-gray-100 p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-bold text-center mb-6">Importar y Exportar 🗂️</h2>
+      <div class="mb-4">
+        <label for="importarArchivo" class="block font-medium mb-1">Importar Datos</label>
+        <input type="file" id="importarArchivo" accept=".csv" class="mb-2">
+        <button onclick="importarDatos()" class="bg-blue-500 text-white p-2 rounded">Importar</button>
+        <button onclick="exportarDatos()" class="bg-red-500 text-white p-2 ml-2 rounded">Exportar</button>
+      </div>
+      <div class="mb-4">
+        <h2 class="text-2xl font-semibold mb-2">Copia de Seguridad 💾</h2>
+        <label for="cargarCopiaSeguridad" class="block font-medium mb-1">Restaurar/Guardar Copia de Seguridad</label>
+        <input type="file" id="cargarCopiaSeguridad" accept=".json" class="mt-2">
+        <button onclick="restaurarCopiaSeguridad()" class="bg-blue-500 text-white p-2 ml-2 rounded">Restaurar CS</button>
+        <button onclick="guardarCopiaSeguridad()" class="bg-red-500 text-white p-2 rounded">Guardar CS</button>
+        <button onclick="borrarLocalStorage()" class="bg-red-500 text-white p-2 rounded-lg">Borrar Todo</button>
+      </div>
+    </section>
+  </div>
+  <script src="/script.js"></script>
+</body>
+</html>

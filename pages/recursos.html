@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recursos - Gestión de Recursos y Periodos de Facturación</title>
+  <!-- Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Archivo de estilos externo -->
+  <link rel="stylesheet" href="/style.css">
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-white p-6">
+  <div class="container mx-auto">
+    <!-- Encabezado -->
+    <header class="mb-8 text-center">
+      <h1 class="text-4xl font-bold">Ringana Sales</h1>
+      <a href="/index.html">
+        <figure class="mt-4">
+          <img src="/img/logo.png" alt="Logo de Ringana Sales" class="w-64 h-64 mx-auto">
+        </figure>
+      </a>
+    </header>
+    
+    <!-- Menú de navegación común -->
+    <nav class="bg-gray-100 p-4 rounded-lg shadow-md mb-6">
+      <ul class="flex flex-wrap justify-center gap-4">
+        <li>
+          <a href="/pages/ventas.html" class="bg-gray-200 text-gray-800 py-2 px-6 rounded-lg hover:bg-gray-300">
+            💼 Ventas
+          </a>
+        </li>
+        <li>
+          <a href="/pages/recursos.html" class="bg-blue-200 text-blue-800 py-2 px-6 rounded-lg">
+            👩‍🦰 Recursos
+          </a>
+        </li>
+        <li>
+          <a href="/pages/dashboard.html" class="bg-gray-200 text-gray-800 py-2 px-6 rounded-lg hover:bg-gray-300">
+            📊 Dashboard
+          </a>
+        </li>
+        <li>
+          <a href="/pages/datos.html" class="bg-gray-200 text-gray-800 py-2 px-6 rounded-lg hover:bg-gray-300">
+            📂 Datos
+          </a>
+        </li>
+      </ul>
+    </nav>
+    
+    <!-- Sección: Gestión de Recursos -->
+    <section id="recursos" class="mb-8 bg-gray-100 p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-bold text-center mb-6">👩‍🦰 GESTIÓN DE RECURSOS</h2>
+      <div class="grid grid-cols-1 gap-4">
+        <!-- Productos -->
+        <div class="bg-gray-300 p-4 rounded-lg shadow-md">
+          <h3 class="text-xl font-semibold text-center mb-4">🛍️ Productos</h3>
+          <div class="flex items-center gap-4">
+            <input id="nuevoProducto" type="text" placeholder="Nombre del producto" class="flex-1 p-2 border rounded-md">
+            <input id="puntosProducto" type="number" placeholder="Puntos" class="w-24 p-2 border rounded-md" min="0">
+            <input id="mesAvisoProducto" type="number" placeholder="Meses de aviso" class="w-36 p-2 border rounded-md" min="0">
+            <button onclick="agregarProducto()" class="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600">➕</button>
+            <button onclick="toggleProductos()" class="p-2 rounded-full bg-gray-500 text-white hover:bg-gray-600">👁️</button>
+          </div>
+          <div id="productos" class="scrollable mt-4 hidden"></div>
+        </div>
+        <!-- Clientas -->
+        <div class="bg-gray-300 p-4 rounded-lg shadow-md">
+          <h3 class="text-xl font-semibold text-center mb-4">👩‍🦰 Clientas</h3>
+          <div class="flex items-center gap-2">
+            <input id="nuevaClienta" type="text" placeholder="Nueva clienta" class="flex-1 p-2 border rounded-md">
+            <button onclick="agregarClienta()" class="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600">➕</button>
+            <button onclick="toggleClientas()" class="p-2 rounded-full bg-gray-500 text-white hover:bg-gray-600">👁️</button>
+          </div>
+          <div id="clientas" class="scrollable mt-2 hidden"></div>
+        </div>
+        <!-- Bonos -->
+        <div class="bg-gray-300 p-4 rounded-lg shadow-md">
+          <h3 class="text-xl font-semibold text-center mb-4">🎁 Bonos</h3>
+          <div class="flex items-center gap-2">
+            <input id="nuevoBono" type="text" placeholder="Nuevo bono" class="flex-1 p-2 border rounded-md">
+            <button onclick="agregarBono()" class="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600">➕</button>
+            <button onclick="toggleBonos()" class="p-2 rounded-full bg-gray-500 text-white hover:bg-gray-600">👁️</button>
+          </div>
+          <div id="bonos" class="scrollable mt-2 hidden"></div>
+        </div>
+        <!-- Socios -->
+        <div class="bg-gray-300 p-4 rounded-lg shadow-md">
+          <h3 class="text-xl font-semibold text-center mb-4">🤝 Socios</h3>
+          <div class="flex items-center gap-2">
+            <input id="nuevoSocio" type="text" placeholder="Nuevo socio" class="flex-1 p-2 border rounded-md">
+            <button onclick="agregarSocio()" class="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600">➕</button>
+            <button onclick="toggleSocios()" class="p-2 rounded-full bg-gray-500 text-white hover:bg-gray-600">👁️</button>
+          </div>
+          <div id="socios" class="scrollable mt-2 hidden"></div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Sección: Periodos de Facturación -->
+    <section id="periodos" class="mb-8 bg-gray-100 p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-bold text-center mb-6">🎟️ PERIODOS DE FACTURACIÓN</h2>
+      <div class="flex flex-wrap gap-2 mb-2 items-center">
+        <label for="nombrePeriodo" class="text-lg font-semibold">Nombre del periodo</label>
+        <input id="nombrePeriodo" type="text" placeholder="Ej: Marzo25" class="border p-2">
+        <label for="fechaInicioPeriodo" class="text-lg font-semibold">Inicio</label>
+        <input id="fechaInicioPeriodo" type="date" class="border p-2">
+        <label for="fechaFinPeriodo" class="text-lg font-semibold">Fin</label>
+        <input id="fechaFinPeriodo" type="date" class="border p-2">
+        <button onclick="agregarPeriodo()" class="add-button"><span class="icon">➕</span></button>
+      </div>
+      <div class="scrollable">
+        <table class="min-w-full bg-white mt-2">
+          <thead>
+            <tr>
+              <th class="py-2 px-4 border">Nombre del Periodo</th>
+              <th class="py-2 px-4 border">Fecha Inicio</th>
+              <th class="py-2 px-4 border">Fecha Fin</th>
+              <th class="py-2 px-4 border">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tablaPeriodos">
+            <!-- Contenido generado por script.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+  <script src="/script.js"></script>
+</body>
+</html>
