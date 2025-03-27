@@ -93,8 +93,9 @@ function agregarProducto() {
   productos.push({ 
     nombre: nuevoProducto, 
     puntos: puntosProducto, 
-    mesAviso: isNaN(mesAviso) ? 0 : mesAviso 
+    mesesAviso: isNaN(mesAviso) ? 0 : mesAviso 
   });
+  
   if (document.getElementById('nuevoProducto')) document.getElementById('nuevoProducto').value = '';
   if (document.getElementById('puntosProducto')) document.getElementById('puntosProducto').value = '';
   if (document.getElementById('mesAvisoProducto')) document.getElementById('mesAvisoProducto').value = '';
