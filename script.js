@@ -1182,11 +1182,12 @@ window.onload = function() {
   if (document.getElementById('selectClientas')) {
     actualizarSelectClientas();
   }
-  if (document.getElementById('selectProductos')) {
-    actualizarSelectProductos();
-    // Además, agregamos el listener para actualizar los inputs de "puntos por producto"
-    document.getElementById('selectProductos').addEventListener('change', actualizarPuntosPorProducto);
-  }
+  const selectProductosEl = document.getElementById('selectProductos');
+if (selectProductosEl && !selectProductosEl.dataset.listenerAttached) {
+  selectProductosEl.addEventListener('change', actualizarPuntosPorProducto);
+  selectProductosEl.dataset.listenerAttached = 'true'; // Evitar doble binding
+}
+
   if (document.getElementById('selectBonos')) {
     actualizarSelectBonos();
   }
