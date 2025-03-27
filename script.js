@@ -1139,33 +1139,41 @@ function initClient() {
 
 if (typeof gapi !== 'undefined') {
   gapi.load('client:auth2', initClient);
+} else {
+  console.warn("gapi no está definido todavía");
 }
 
 
 function crearEventoGoogleCalendar(titulo, fechaInicio, descripcion) {
+  if (typeof gapi === 'undefined' || !gapi.client || !gapi.client.calendar) {
+    console.warn("Google API client no está disponible. Evento no creado.");
+    return;
+  }
+
   var evento = {
-    'summary': titulo,
-    'description': descripcion,
-    'start': {
-      'dateTime': fechaInicio.toISOString(),
-      'timeZone': 'America/Mexico_City'
+    summary: titulo,
+    description: descripcion,
+    start: {
+      dateTime: fechaInicio.toISOString(),
+      timeZone: 'America/Mexico_City'
     },
-    'end': {
-      'dateTime': new Date(fechaInicio.getTime() + 60 * 60 * 1000).toISOString(),
-      'timeZone': 'America/Mexico_City'
+    end: {
+      dateTime: new Date(fechaInicio.getTime() + 60 * 60 * 1000).toISOString(),
+      timeZone: 'America/Mexico_City'
     },
-    'reminders': {
-      'useDefault': true
-    }
+    reminders: { useDefault: true }
   };
+
   var request = gapi.client.calendar.events.insert({
-    'calendarId': 'primary',
-    'resource': evento
+    calendarId: 'primary',
+    resource: evento
   });
+
   request.execute(function(eventoCreado) {
     console.log('Evento creado: ' + (eventoCreado.htmlLink || 'Sin enlace'));
   });
 }
+
 
 // --------------------------- INICIALIZACIÓN ---------------------------
 window.onload = function() {
