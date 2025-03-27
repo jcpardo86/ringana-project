@@ -633,20 +633,16 @@ function registrarVenta() {
   if (formulario) formulario.reset();
   document.getElementById('puntosPorProductoContainer').innerHTML = '';
 
-  // Mensaje de exito visual
-  const boton = document.getElementById('registrarVentaBtn');
-  if (boton) {
-    boton.disabled = true;
-    const textoOriginal = boton.innerText;
-    boton.innerText = "✅ VENTA REGISTRADA";
-    boton.classList.add("opacity-70", "cursor-not-allowed");
+  // ✅ Mostrar mensaje de éxito visual
+const boton = document.getElementById('registrarVentaBtn');
+if (boton) {
+  boton.disabled = true;
 
-    setTimeout(() => {
-      boton.innerText = textoOriginal;
-      boton.disabled = false;
-      boton.classList.remove("opacity-70", "cursor-not-allowed");
-    }, 3000);
-  }
+  setTimeout(() => {
+    boton.disabled = false;
+  }, 3000); // 3 segundos para prevenir doble clic
+}
+
 
   const toast = document.getElementById('toast-exito');
   if (toast) {
