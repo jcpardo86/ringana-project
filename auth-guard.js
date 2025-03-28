@@ -28,7 +28,7 @@ onAuthStateChanged(auth, (user) => {
 
   if (!user && !isLoginPage) {
     // Redirigir si no está logado y no está en login
-    window.location.href = "/ringana-project/index.html";
+    window.location.href = "/ringana-project/pages/modulos/login.html";
   }
 
   if (user && isLoginPage) {

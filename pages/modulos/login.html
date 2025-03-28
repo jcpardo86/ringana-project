@@ -4,7 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login - Ringana</title>
+  <title>Login - Ringana Partner Sales</title>
+
+  <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 
   <!-- Firebase SDK -->
@@ -31,17 +33,27 @@
         await signInWithEmailAndPassword(auth, email, password);
         window.location.href = "/ringana-project/index.html";
       } catch (error) {
-        alert("Error de autenticación: " + error.message);
+        alert("❌ Error de autenticación: " + error.message);
       }
     };
   </script>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
-  <div class="bg-white p-8 rounded shadow-md w-full max-w-sm">
-    <h2 class="text-2xl font-bold mb-4 text-center">🔐 Iniciar sesión</h2>
-    <input id="email" type="email" placeholder="Correo" class="border p-2 w-full mb-2 rounded" />
-    <input id="password" type="password" placeholder="Contraseña" class="border p-2 w-full mb-4 rounded" />
-    <button onclick="login()" class="bg-blue-600 text-white px-4 py-2 rounded w-full">Entrar</button>
+<body class="bg-white p-6">
+  <div class="container mx-auto max-w-4xl">
+
+    <!-- Encabezado con logo -->
+    <header class="mb-8 text-center">
+      <h1 class="text-4xl font-bold text-gray-800">Ringana Partner Sales</h1>
+      <img src="/ringana-project/img/logo.png" alt="Logo de Ringana Sales" class="w-64 h-64 mx-auto mt-4" />
+    </header>
+
+    <!-- LOGIN -->
+    <div class="max-w-sm mx-auto mt-10">
+      <h2 class="text-xl mb-4 text-center">🔐 Iniciar sesión</h2>
+      <input id="email" type="email" placeholder="Correo" class="border p-2 w-full mb-2 rounded" />
+      <input id="password" type="password" placeholder="Contraseña" class="border p-2 w-full mb-4 rounded" />
+      <button onclick="login()" class="bg-blue-600 text-white px-4 py-2 rounded w-full">Entrar</button>
+    </div>
   </div>
 </body>
 </html>

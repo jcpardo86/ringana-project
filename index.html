@@ -54,6 +54,7 @@
         appContainer?.classList.remove("hidden");
         logoutButton?.classList.remove("hidden");
 
+        // Cargar el menú dinámico si está logado
         fetch("/ringana-project/pages/modulos/menu.html")
           .then(res => res.text())
           .then(html => {
@@ -81,9 +82,9 @@
       </a>
     </header>
 
-    <!-- LOGIN -->
+    <!-- LOGIN (si no está logado) -->
     <div id="loginContainer" class="max-w-sm mx-auto mt-10 hidden">
-      <h2 class="text-xl mb-4">🔐 Iniciar sesión</h2>
+      <h2 class="text-xl mb-4 text-center">🔐 Iniciar sesión</h2>
       <input id="email" type="email" placeholder="Correo" class="border p-2 w-full mb-2 rounded" />
       <input id="password" type="password" placeholder="Contraseña" class="border p-2 w-full mb-4 rounded" />
       <button onclick="login()" class="bg-blue-600 text-white px-4 py-2 rounded w-full">Entrar</button>
@@ -110,7 +111,7 @@
     </div>
   </div>
 
-  <!-- 🔒 Protege esta página -->
+  <!-- Protege esta página -->
   <script type="module" src="/ringana-project/auth-guard.js"></script>
 </body>
 </html>
