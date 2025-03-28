@@ -12,13 +12,10 @@
   <link rel="stylesheet" href="/ringana-project/style.css" />
 
   <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js"></script>
-
-<script type="module">
+  <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
     import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-  
+
     const firebaseConfig = {
       apiKey: "AIzaSyC1D6o52R9eLzZBImfxer9QoE050XMIBys",
       authDomain: "ringana-dbc59.firebaseapp.com",
@@ -28,23 +25,61 @@
       appId: "1:23497738168:web:415186e48b1d7968ce314d",
       measurementId: "G-7TKM5BCZGV"
     };
-  
+
     const app = initializeApp(firebaseConfig);
     const auth = getAuth();
-  
-    window.firebaseAuth = { auth, onAuthStateChanged, signInWithEmailAndPassword, signOut };
+
+    // GUARD: Bloquea la app si no hay sesión
+    onAuthStateChanged(auth, user => {
+      const loginContainer = document.getElementById("loginContainer");
+      const appContainer = document.getElementById("appContainer");
+      const logoutButton = document.getElementById("logoutButton");
+      const menuContainer = document.getElementById("menu-container");
+
+      if (user) {
+        // Mostrar contenido privado
+        loginContainer.classList.add("hidden");
+        appContainer.classList.remove("hidden");
+        logoutButton.classList.remove("hidden");
+
+        // Cargar el menú
+        fetch("/ringana-project/pages/modulos/menu.html")
+          .then(res => res.text())
+          .then(html => {
+            if (menuContainer) menuContainer.innerHTML = html;
+          })
+          .catch(error => console.error("No se pudo cargar el menú:", error));
+      } else {
+        // Mostrar solo login
+        loginContainer.classList.remove("hidden");
+        appContainer.classList.add("hidden");
+        logoutButton.classList.add("hidden");
+        if (menuContainer) menuContainer.innerHTML = '';
+      }
+    });
+
+    // Login
+    window.login = async function () {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        console.log("✅ Login correcto");
+      } catch (error) {
+        alert("Error al iniciar sesión: " + error.message);
+      }
+    };
+
+    // Logout
+    window.logout = async function () {
+      await signOut(auth);
+    };
   </script>
-    
-  <!-- Script principal -->
-  <script type="module" src="/ringana-project/script.js"></script>
-
-
 </head>
-
 
 <body class="bg-white p-6">
   <div class="container mx-auto max-w-4xl">
-    
+
     <!-- Encabezado -->
     <header class="mb-8 text-center">
       <h1 class="text-4xl font-bold text-gray-800">Ringana Partner Sales</h1>
@@ -53,45 +88,34 @@
       </a>
     </header>
 
-    <!-- Menú dinámico -->
-    <div id="menu-container" class="mb-6"></div>
     <!-- LOGIN -->
-
-    <div id="loginContainer" class="max-w-sm mx-auto mt-10">
+    <div id="loginContainer" class="max-w-sm mx-auto mt-10 hidden">
       <h2 class="text-xl mb-4">🔐 Iniciar sesión</h2>
       <input id="email" type="email" placeholder="Correo" class="border p-2 w-full mb-2 rounded" />
       <input id="password" type="password" placeholder="Contraseña" class="border p-2 w-full mb-4 rounded" />
       <button onclick="login()" class="bg-blue-600 text-white px-4 py-2 rounded w-full">Entrar</button>
     </div>
-    <!-- CERRAR SESION -->
 
-    <button onclick="logout()" class="mt-4 bg-red-600 text-white px-4 py-2 rounded">
-      Cerrar sesión
-    </button>
-    
-    <div id="appContainer" class="hidden">
-      <!-- Aquí va tu app, lo ocultamos si no está logueado -->
+    <!-- BOTÓN CERRAR SESIÓN -->
+    <div class="text-right">
+      <button id="logoutButton" onclick="logout()" class="hidden bg-red-600 text-white px-4 py-2 rounded">
+        Cerrar sesión
+      </button>
     </div>
-    
 
-    <!-- Contenido principal -->
-    <section class="text-center">
-      <p class="text-lg">
-        Bienvenido a la aplicación <strong>Control de Ventas</strong>. Selecciona una sección para comenzar.
-      </p>
-    </section>
+    <!-- CONTENEDOR APP (solo si está logado) -->
+    <div id="appContainer" class="hidden">
+      <!-- Menú dinámico -->
+      <div id="menu-container" class="mb-6"></div>
+
+      <!-- Contenido principal -->
+      <section class="text-center">
+        <p class="text-lg">
+          Bienvenido a la aplicación <strong>Control de Ventas</strong>. Selecciona una sección para comenzar.
+        </p>
+      </section>
+    </div>
+
   </div>
-
-  <!-- Script: cargar menú -->
-  <script>
-    fetch("/ringana-project/pages/modulos/menu.html")
-      .then(res => res.text())
-      .then(html => {
-        const container = document.getElementById("menu-container");
-        if (container) container.innerHTML = html;
-      })
-      .catch(error => console.error("No se pudo cargar el menú:", error));
-      </script>
-
 </body>
 </html>
