@@ -126,28 +126,18 @@
       .then(html => {
         const container = document.getElementById("menu-container");
         if (container) container.innerHTML = html;
-      })
-      .catch(err => console.error("No se pudo cargar el menú:", err));
+      });
   </script>
 
-  <script src="/ringana-project/script.js"></script>
+  <!-- Script funcionalidad recursos -->
   <script type="module">
     import {
-      toggleProductos,
-      agregarProducto,
-      cargarProductos,
-      toggleClientas,
-      agregarClienta,
-      cargarClientas,
-      toggleBonos,
-      agregarBono,
-      cargarBonos,
-      toggleSocios,
-      agregarSocio,
-      cargarSocios
+      toggleProductos, agregarProducto, cargarProductos,
+      toggleClientas, agregarClienta, cargarClientas,
+      toggleBonos, agregarBono, cargarBonos,
+      toggleSocios, agregarSocio, cargarSocios
     } from "/ringana-project/js/recursos.js";
-  
-    // Exponer funciones necesarias al scope global
+
     window.toggleProductos = toggleProductos;
     window.agregarProducto = agregarProducto;
     window.toggleClientas = toggleClientas;
@@ -156,14 +146,37 @@
     window.agregarBono = agregarBono;
     window.toggleSocios = toggleSocios;
     window.agregarSocio = agregarSocio;
-  
-    // Cargar datos al iniciar
+
+    // Cargar datos automáticamente
     cargarProductos();
     cargarClientas();
     cargarBonos();
     cargarSocios();
   </script>
-  
+
+  <!-- Firebase Auth Guard -->
+  <script type="module">
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC1D6o52R9eLzZBImfxer9QoE050XMIBys",
+      authDomain: "ringana-dbc59.firebaseapp.com",
+      projectId: "ringana-dbc59",
+      storageBucket: "ringana-dbc59.firebasestorage.app",
+      messagingSenderId: "23497738168",
+      appId: "1:23497738168:web:415186e48b1d7968ce314d"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+
+    onAuthStateChanged(auth, user => {
+      if (!user) {
+        window.location.href = "/ringana-project/pages/modulos/login.html";
+      }
+    });
+  </script>
   
 
 </body>

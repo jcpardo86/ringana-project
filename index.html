@@ -4,57 +4,57 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ringana Partner Sales</title>
-
-  <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-
-  <!-- Estilos personalizados -->
   <link rel="stylesheet" href="/ringana-project/style.css" />
 </head>
-
 <body class="bg-white p-6">
   <div class="container mx-auto max-w-4xl">
-
-    <!-- Encabezado -->
     <header class="mb-8 text-center">
       <h1 class="text-4xl font-bold text-gray-800">Ringana Partner Sales</h1>
       <a href="/ringana-project/index.html" title="Volver al inicio">
-        <img src="/ringana-project/img/logo.png" alt="Logo de Ringana Sales" class="w-64 h-64 mx-auto mt-4" />
+        <img src="/ringana-project/img/logo.png" alt="Logo Ringana" class="w-64 h-64 mx-auto mt-4" />
       </a>
     </header>
 
-    <!-- LOGIN (solo si no está logado) -->
-    <div id="loginContainer" class="max-w-sm mx-auto mt-10 hidden">
-      <h2 class="text-xl mb-4 text-center">🔐 Iniciar sesión</h2>
-      <form onsubmit="event.preventDefault(); login();">
-        <input id="email" type="email" placeholder="Correo" class="border p-2 w-full mb-2 rounded" required />
-        <input id="password" type="password" placeholder="Contraseña" class="border p-2 w-full mb-4 rounded" required />
-        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded w-full">Entrar</button>
-      </form>
-    </div>
+    <div id="menu-container" class="mb-6"></div>
 
-    <!-- SOLO BOTÓN CERRAR SESIÓN -->
-    <div class="text-right mb-4">
-      <button id="logoutButton" onclick="logout()" class="hidden bg-red-600 text-white px-4 py-2 rounded">
-        Cerrar sesión
-      </button>
-    </div>
-
-    <!-- CONTENEDOR APP (solo si está logado) -->
-    <div id="appContainer" class="hidden">
-      <!-- Menú dinámico -->
-      <div id="menu-container" class="mb-6"></div>
-
-      <!-- Contenido principal -->
-      <section class="text-center">
-        <p class="text-lg">
-          Bienvenido a la aplicación <strong>Control de Ventas</strong>. Selecciona una sección para comenzar.
-        </p>
-      </section>
-    </div>
+    <section class="text-center">
+      <p class="text-lg">Bienvenido a la aplicación <strong>Control de Ventas</strong>.</p>
+    </section>
   </div>
 
-  <!-- Scripts organizados -->
-  <script type="module" src="/ringana-project/js/firebase-auth.js"></script>
+  <!-- Cargar menú -->
+  <script>
+    fetch("/ringana-project/pages/modulos/menu.html")
+      .then(res => res.text())
+      .then(html => {
+        const container = document.getElementById("menu-container");
+        if (container) container.innerHTML = html;
+      });
+  </script>
+
+  <!-- Firebase Auth Guard -->
+  <script type="module">
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC1D6o52R9eLzZBImfxer9QoE050XMIBys",
+      authDomain: "ringana-dbc59.firebaseapp.com",
+      projectId: "ringana-dbc59",
+      storageBucket: "ringana-dbc59.firebasestorage.app",
+      messagingSenderId: "23497738168",
+      appId: "1:23497738168:web:415186e48b1d7968ce314d"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+
+    onAuthStateChanged(auth, user => {
+      if (!user) {
+        window.location.href = "/ringana-project/pages/modulos/login.html";
+      }
+    });
+  </script>
 </body>
 </html>
