@@ -29,8 +29,11 @@
       <h2 class="text-xl font-semibold mb-4">➕ Añadir nueva cita</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <input id="clienta" type="text" placeholder="Nombre de la clienta" class="p-2 border rounded" required />
+        <label for="fecha" class="block font-medium mb-1">📅 Fecha</label>
         <input id="fecha" type="date" class="p-2 border rounded" required />
+        <label for="horaInicio" class="block font-medium mb-1">⏰ Hora</label>
         <input id="horaInicio" type="time" class="p-2 border rounded" required />
+        <label for="horaFin" class="block font-medium mb-1">⏰ Hora de fin</label>
         <input id="horaFin" type="time" class="p-2 border rounded" required />
       </div>
       <button onclick="crearEvento()" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
