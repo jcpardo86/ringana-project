@@ -9,6 +9,8 @@ const auth = getAuth();
 
 // Inicializa cliente de Google APIs
 function initGoogleClient(token) {
+  console.log("🔐 Inicializando cliente de Google API con token:", token);
+
   gapi.load("client", async () => {
     await gapi.client.init({
       apiKey: API_KEY,
@@ -16,6 +18,7 @@ function initGoogleClient(token) {
     });
 
     gapi.client.setToken({ access_token: token });
+    console.log("✅ Cliente Google API inicializado y token asignado");
     listarEventos();
   });
 }
@@ -25,40 +28,24 @@ export async function conectarConGoogleCalendar() {
   const user = auth.currentUser;
   if (!user) return alert("Debes iniciar sesión primero");
 
-  const tokenResult = await user.getIdTokenResult();
-
-  const credential = GoogleAuthProvider.credential(null, tokenResult.token);
-
-  user.getIdToken(true).then(idToken => {
-    user.getIdTokenResult().then(() => {
-      user.reload().then(() => {
-        user.getIdToken().then(() => {
-          user.getIdTokenResult().then(() => {
-            user.reload();
-          });
-        });
-      });
-    });
-  });
+  console.log("👤 Usuario logueado:", user.email);
 
   const providerData = user.providerData.find(p => p.providerId === "google.com");
   if (!providerData) {
     alert("Este usuario no está autenticado con Google");
+    console.warn("⚠️ Usuario autenticado, pero no con Google:", user);
     return;
   }
 
-  const token = (await user.getIdTokenResult()).claims.firebase?.identities?.["google.com"]?.[0];
-
-  if (!token) {
-    alert("No se encontró token de Google válido");
-    return;
-  }
-
+  const token = (await user.getIdTokenResult()).token;
+  console.log("🔑 Token de acceso Firebase obtenido");
   initGoogleClient(token);
 }
 
 // Listar eventos del calendario
 function listarEventos() {
+  console.log("📅 Solicitando eventos del calendario...");
+
   gapi.client.calendar.events.list({
     calendarId: "primary",
     timeMin: new Date().toISOString(),
@@ -72,9 +59,12 @@ function listarEventos() {
     contenedor.innerHTML = "";
 
     if (!eventos.length) {
+      console.log("ℹ️ No hay eventos próximos.");
       contenedor.innerHTML = "<p class='text-gray-500'>No hay eventos próximos.</p>";
       return;
     }
+
+    console.log(`✅ ${eventos.length} evento(s) cargado(s)`);
 
     eventos.forEach(ev => {
       const div = document.createElement("div");
@@ -82,5 +72,32 @@ function listarEventos() {
       div.textContent = `${ev.summary} - ${ev.start.dateTime || ev.start.date}`;
       contenedor.appendChild(div);
     });
+  });
+}
+
+// Crear un nuevo evento sencillo
+export function crearEvento() {
+  const titulo = prompt("Título del evento:");
+  const fecha = prompt("Fecha (YYYY-MM-DD):");
+
+  if (!titulo || !fecha) return;
+
+  const evento = {
+    summary: titulo,
+    start: { date: fecha },
+    end: { date: fecha }
+  };
+
+  console.log("🆕 Creando evento:", evento);
+
+  gapi.client.calendar.events.insert({
+    calendarId: "primary",
+    resource: evento
+  }).then(() => {
+    alert("✅ Evento creado");
+    listarEventos();
+  }).catch(err => {
+    console.error("❌ Error al crear evento:", err);
+    alert("❌ Error al crear evento");
   });
 }
