@@ -1,11 +1,12 @@
+
+// ✅ Inicialización Firebase como módulo
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
 import {
   getAuth,
-  onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
-  createUserWithEmailAndPassword,
-  updateProfile
+  onAuthStateChanged,
+  createUserWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
 const firebaseConfig = {
@@ -14,159 +15,66 @@ const firebaseConfig = {
   projectId: "ringana-dbc59",
   storageBucket: "ringana-dbc59.firebasestorage.app",
   messagingSenderId: "23497738168",
-  appId: "1:23497738168:web:415186e48b1d7968ce314d"
+  appId: "1:23497738168:web:415186e48b1d7968ce314d",
+  measurementId: "G-7TKM5BCZGV"
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth();
+const auth = getAuth(app);
 
-// LOGIN
+// Exponer auth en window para otros módulos si se requiere
+window.firebaseAuth = {
+  auth,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+};
+
+// ✅ Función LOGIN accesible desde HTML
 window.login = async function () {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
   try {
+    const { auth, signInWithEmailAndPassword } = window.firebaseAuth;
     await signInWithEmailAndPassword(auth, email, password);
+    alert("✅ Sesión iniciada con éxito.");
+    window.location.href = "/ringana-project/pages/dashboard.html";
   } catch (error) {
     alert("❌ Error al iniciar sesión: " + error.message);
   }
 };
 
-// LOGOUT
-function logout() {
-  signOut(auth).then(() => {
-    console.log("🔓 Sesión cerrada");
-  }).catch(error => {
-    console.error("❌ Error al cerrar sesión:", error);
-  });
-}
-
-// Hacerla accesible desde botones onclick
-window.logout = async function () {
-  try {
-    await signOut(auth);
-    console.log("🔓 Sesión cerrada");
-  } catch (error) {
-    console.error("❌ Error al cerrar sesión:", error);
-  }
-};
-
-
-// REGISTRO
+// ✅ Función REGISTRO accesible desde HTML
 window.register = async function () {
   const name = document.getElementById("regName").value;
   const email = document.getElementById("regEmail").value;
   const password = document.getElementById("regPassword").value;
-
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    await updateProfile(userCredential.user, { displayName: name });
-
-    window.location.href = "/ringana-project/index.html";
+    const { auth } = window.firebaseAuth;
+    await createUserWithEmailAndPassword(auth, email, password);
+    alert("✅ Cuenta creada con éxito para " + name);
+    window.location.href = "/ringana-project/pages/dashboard.html";
   } catch (error) {
-    alert("❌ Error al registrar: " + error.message);
+    alert("❌ Error al registrarse: " + error.message);
   }
 };
 
-// CAMBIAR ENTRE LOGIN Y REGISTRO
-window.showRegister = () => {
-  document.getElementById("loginContainer")?.classList.add("hidden");
-  document.getElementById("registerContainer")?.classList.remove("hidden");
+// ✅ Cambiar entre Login y Registro
+window.showRegister = function () {
+  document.getElementById("loginContainer").classList.add("hidden");
+  document.getElementById("registerContainer").classList.remove("hidden");
 };
 
-window.showLogin = () => {
-  document.getElementById("registerContainer")?.classList.add("hidden");
-  document.getElementById("loginContainer")?.classList.remove("hidden");
+window.showLogin = function () {
+  document.getElementById("registerContainer").classList.add("hidden");
+  document.getElementById("loginContainer").classList.remove("hidden");
 };
 
-// CONTROL DE SESIÓN Y CARGA DEL MENÚ
-onAuthStateChanged(auth, user => {
-  const loginContainer = document.getElementById("loginContainer");
-  const appContainer = document.getElementById("appContainer");
-  const logoutButton = document.getElementById("logoutButton");
-  const menuContainer = document.getElementById("menu-container");
-  const welcomeMessage = document.getElementById("welcomeMessage");
-
-  const isLoginPage = window.location.pathname.includes("login.html");
-
+// ✅ Verificación automática de usuario logueado
+onAuthStateChanged(auth, (user) => {
   if (user) {
-    // Si está logado y en login.html, redirigir al index
-    if (isLoginPage) {
-      window.location.href = "/ringana-project/index.html";
-      return;
-    }
-
-    loginContainer?.classList.add("hidden");
-    appContainer?.classList.remove("hidden");
-    logoutButton?.classList.remove("hidden");
-
-    // Mostrar mensaje de bienvenida con nombre limpio
-    if (welcomeMessage) {
-      let name = "Usuario";
-
-      if (user.displayName) {
-        name = user.displayName;
-      } else if (user.email) {
-        name = user.email.split("@")[0];
-      }
-
-      welcomeMessage.innerHTML = `👋 Bienvenid@ <span class="font-semibold text-blue-700">${name}</span> 👤`;
-      welcomeMessage.classList.remove("hidden");
-    }
-
-    // Cargar menú
-    fetch("/ringana-project/pages/modulos/menu.html")
-      .then(res => res.text())
-      .then(html => {
-        if (menuContainer) menuContainer.innerHTML = html;
-        import("./menu-highlight.js").then(module => module.highlightActiveMenu());
-      })
-      .catch(error => console.error("No se pudo cargar el menú:", error));
-
+    console.log("👤 Usuario activo:", user.email);
   } else {
-    loginContainer?.classList.remove("hidden");
-    appContainer?.classList.add("hidden");
-    logoutButton?.classList.add("hidden");
-
-    if (welcomeMessage) {
-      welcomeMessage.textContent = '';
-      welcomeMessage.classList.add("hidden");
-    }
-
-    if (menuContainer) menuContainer.innerHTML = '';
-
-    // Si no está logado y no está en login.html, redirigir
-    if (!isLoginPage) {
-      window.location.href = "/ringana-project/login.html";
-    }
+    console.log("🔒 Usuario deslogueado");
   }
 });
-
-
-// ⬇️ CACHE DE USUARIO EN LOCALSTORAGE
-firebase.auth().onAuthStateChanged(function(user) {
-  if (user) {
-    const userData = {
-      uid: user.uid,
-      email: user.email,
-      displayName: user.displayName,
-    };
-    localStorage.setItem("userCache", JSON.stringify(userData));
-    console.log("Usuario autenticado:", userData);
-  } else {
-    localStorage.removeItem("userCache");
-  }
-});
-
-// ⬇️ USO DE CACHE SI NO HAY CONEXIÓN
-function checkCachedUser() {
-  const cache = localStorage.getItem("userCache");
-  if (cache) {
-    const user = JSON.parse(cache);
-    console.log("Usando datos en cache:", user);
-    // Puedes mostrar el nombre del usuario en la UI si es necesario
-    const el = document.getElementById("userName");
-    if (el) el.innerText = user.displayName || user.email;
-  } else {
-    console.warn("No hay datos de usuario en cache.");
-  }
-}
