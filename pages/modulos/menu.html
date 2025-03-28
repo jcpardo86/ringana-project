@@ -1,5 +1,5 @@
 <nav class="bg-gray-100 p-4 rounded-lg shadow-md mb-6">
-  <ul class="flex flex-wrap justify-center gap-4">
+  <ul class="flex flex-wrap justify-center gap-4 items-center">
     <li>
       <a href="/ringana-project/index.html"
          class="menu-link bg-gray-200 text-gray-800 py-2 px-6 rounded-lg hover:bg-gray-300 font-semibold">
@@ -35,6 +35,19 @@
          class="menu-link bg-gray-200 text-gray-800 py-2 px-6 rounded-lg hover:bg-gray-300">
         💰 Contabilidad
       </a>
+    </li>
+    
+    <!-- Bienvenida -->
+    <li>
+      <span id="welcomeMessage" class="text-gray-800 font-medium px-2">👋 Bienvenid@</span>
+    </li>
+
+    <!-- Botón cerrar sesión -->
+    <li>
+      <button onclick="logout()"
+              class="bg-red-600 text-white py-2 px-6 rounded-lg hover:bg-red-700 transition">
+        🔓 Cerrar sesión
+      </button>
     </li>
   </ul>
 </nav>
