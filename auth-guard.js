@@ -24,11 +24,11 @@ const auth = getAuth();
 
 // Protege TODAS las páginas donde se incluya este script
 onAuthStateChanged(auth, (user) => {
-  const isLoginPage = window.location.pathname.endsWith("/pages/modulos/login.html");
+  const isLoginPage = window.location.pathname.endsWith("/ringana-project/index.html");
 
   if (!user && !isLoginPage) {
     // Redirigir si no está logado y no está en login
-    window.location.href = "/ringana-project/pages/modulos/login.html";
+    window.location.href = "/ringana-project/index.html";
   }
 
   if (user && isLoginPage) {
