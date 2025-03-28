@@ -1259,18 +1259,65 @@ window.firebaseAuth.onAuthStateChanged(window.firebaseAuth.auth, user => {
   }
 });
 
-// --------------------------- REGISTRO ---------------------------
-function showRegister() {
-  document.getElementById("loginContainer").classList.add("hidden");
-  document.getElementById("registerContainer").classList.remove("hidden");
+
+// --------------------------- INICIALIZACIÓN ---------------------------
+
+// --------------------------- MEJORAS LOCALSTORAGE COMO CACHE ---------------------------
+
+// ✅ Marcar última sincronización local
+function marcarUltimaSync() {
+  localStorage.setItem("ultimaSync", new Date().toISOString());
 }
 
-function showLogin() {
-  document.getElementById("registerContainer").classList.add("hidden");
-  document.getElementById("loginContainer").classList.remove("hidden");
+// ✅ Ver última sincronización
+function mostrarUltimaSync() {
+  const sync = localStorage.getItem("ultimaSync");
+  console.log("🕒 Última sincronización:", sync || "Nunca");
 }
-// --------------------------- INICIALIZACIÓN ---------------------------
+
+// ✅ Eventos de conectividad
+window.addEventListener("offline", () => alert("⚠️ Estás sin conexión"));
+window.addEventListener("online", () => alert("✅ Conexión restaurada"));
+
+// Sobrescribir guardarLocalStorage con marca de tiempo
+const guardarLocalStorageOriginal = guardarLocalStorage;
+guardarLocalStorage = async function() {
+  await guardarLocalStorageOriginal();
+  marcarUltimaSync();
+};
+
+// ✅ Mejor lógica en la carga inicial (sincronizar sólo si no hay datos o el usuario acepta)
 window.onload = async function() {
+  try {
+    const docSnap = await getDoc(doc(db, "backup", "datos"));
+    if (docSnap.exists()) {
+      const datosLocales = localStorage.getItem("productos");
+      if (!datosLocales || confirm("¿Deseás sobreescribir los datos locales con los de la nube?")) {
+        const datos = docSnap.data();
+        productos = datos.productos || [];
+        clientas = datos.clientas || [];
+        bonos = datos.bonos || [];
+        ventas = datos.ventas || [];
+        socios = datos.socios || [];
+        puntos = datos.puntos || [];
+        periodos = datos.periodos || [];
+
+        guardarLocalStorage();
+        console.log("✅ Datos cargados desde Firebase");
+      } else {
+        console.log("➡️ Se mantuvieron los datos locales");
+      }
+    } else {
+      console.log("⚠️ No hay datos en Firebase todavía.");
+    }
+  } catch (error) {
+    console.error("❌ Error al cargar desde Firebase", error);
+  }
+
+  mostrarUltimaSync();
+
+  // Resto del código original de window.onload sigue abajo...
+
   try {
     const docSnap = await getDoc(doc(db, "backup", "datos"));
     if (docSnap.exists()) {
@@ -1356,4 +1403,3 @@ window.onload = async function() {
     actualizarDashboard();
   }
 };
-
