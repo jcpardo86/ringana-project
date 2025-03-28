@@ -132,6 +132,12 @@
 
   <script src="/ringana-project/script.js"></script>
   <script type="module" src="/ringana-project/auth-guard.js"></script>
+  <script type="module">
+    import { toggleProductos, agregarProducto } from "/ringana-project/js/recursos.js";
+    window.toggleProductos = toggleProductos;
+    window.agregarProducto = agregarProducto;
+  </script>
+  
 
 </body>
 </html>
