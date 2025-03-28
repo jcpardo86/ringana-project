@@ -1259,7 +1259,16 @@ window.firebaseAuth.onAuthStateChanged(window.firebaseAuth.auth, user => {
   }
 });
 
+// --------------------------- REGISTRO ---------------------------
+function showRegister() {
+  document.getElementById("loginContainer").classList.add("hidden");
+  document.getElementById("registerContainer").classList.remove("hidden");
+}
 
+function showLogin() {
+  document.getElementById("registerContainer").classList.add("hidden");
+  document.getElementById("loginContainer").classList.remove("hidden");
+}
 // --------------------------- INICIALIZACIÓN ---------------------------
 window.onload = async function() {
   try {

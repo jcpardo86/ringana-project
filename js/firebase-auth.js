@@ -140,3 +140,33 @@ onAuthStateChanged(auth, user => {
     }
   }
 });
+
+
+// ⬇️ CACHE DE USUARIO EN LOCALSTORAGE
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    const userData = {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+    };
+    localStorage.setItem("userCache", JSON.stringify(userData));
+    console.log("Usuario autenticado:", userData);
+  } else {
+    localStorage.removeItem("userCache");
+  }
+});
+
+// ⬇️ USO DE CACHE SI NO HAY CONEXIÓN
+function checkCachedUser() {
+  const cache = localStorage.getItem("userCache");
+  if (cache) {
+    const user = JSON.parse(cache);
+    console.log("Usando datos en cache:", user);
+    // Puedes mostrar el nombre del usuario en la UI si es necesario
+    const el = document.getElementById("userName");
+    if (el) el.innerText = user.displayName || user.email;
+  } else {
+    console.warn("No hay datos de usuario en cache.");
+  }
+}
