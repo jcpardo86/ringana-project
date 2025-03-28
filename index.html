@@ -7,7 +7,7 @@
 
   <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-  
+
   <!-- Estilos personalizados -->
   <link rel="stylesheet" href="/ringana-project/style.css" />
 
@@ -54,8 +54,8 @@
         appContainer?.classList.remove("hidden");
         logoutButton?.classList.remove("hidden");
 
-        // Cargar el menú dinámico si está logado
-        fetch("/ringana-project/pages/modulos/menu.html")
+        // ✅ Ruta corregida del menú
+        fetch("pages/modulos/menu.html")
           .then(res => res.text())
           .then(html => {
             if (menuContainer) menuContainer.innerHTML = html;
@@ -82,12 +82,14 @@
       </a>
     </header>
 
-    <!-- LOGIN (si no está logado) -->
+    <!-- LOGIN (solo si no está logado) -->
     <div id="loginContainer" class="max-w-sm mx-auto mt-10 hidden">
       <h2 class="text-xl mb-4 text-center">🔐 Iniciar sesión</h2>
-      <input id="email" type="email" placeholder="Correo" class="border p-2 w-full mb-2 rounded" />
-      <input id="password" type="password" placeholder="Contraseña" class="border p-2 w-full mb-4 rounded" />
-      <button onclick="login()" class="bg-blue-600 text-white px-4 py-2 rounded w-full">Entrar</button>
+      <form onsubmit="event.preventDefault(); login();">
+        <input id="email" type="email" placeholder="Correo" class="border p-2 w-full mb-2 rounded" required />
+        <input id="password" type="password" placeholder="Contraseña" class="border p-2 w-full mb-4 rounded" required />
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded w-full">Entrar</button>
+      </form>
     </div>
 
     <!-- BOTÓN CERRAR SESIÓN -->
@@ -110,8 +112,5 @@
       </section>
     </div>
   </div>
-
-  <!-- Protege esta página -->
-  <script type="module" src="/ringana-project/auth-guard.js"></script>
 </body>
 </html>
