@@ -101,3 +101,7 @@ export function crearEvento() {
     alert("❌ Error al crear evento");
   });
 }
+
+// Para poder llamarlo desde HTML
+window.crearEvento = crearEvento;
+window.conectarConGoogleCalendar = conectarConGoogleCalendar;
