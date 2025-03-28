@@ -33,12 +33,21 @@ onAuthStateChanged(auth, user => {
   const appContainer = document.getElementById("appContainer");
   const logoutButton = document.getElementById("logoutButton");
   const menuContainer = document.getElementById("menu-container");
+  const welcomeMessage = document.getElementById("welcomeMessage");
 
   if (user) {
     loginContainer?.classList.add("hidden");
     appContainer?.classList.remove("hidden");
     logoutButton?.classList.remove("hidden");
 
+    // Mostrar mensaje de bienvenida
+    if (welcomeMessage) {
+      const name = user.displayName || user.email || "Usuario";
+      welcomeMessage.textContent = `Bienvenid@ ${name}`;
+      welcomeMessage.classList.remove("hidden");
+    }
+
+    // Cargar el menú dinámico
     fetch("pages/modulos/menu.html")
       .then(res => res.text())
       .then(html => {
@@ -46,10 +55,18 @@ onAuthStateChanged(auth, user => {
         import("./menu-highlight.js").then(module => module.highlightActiveMenu());
       })
       .catch(error => console.error("No se pudo cargar el menú:", error));
+
   } else {
     loginContainer?.classList.remove("hidden");
     appContainer?.classList.add("hidden");
     logoutButton?.classList.add("hidden");
+
+    // Ocultar mensaje de bienvenida
+    if (welcomeMessage) {
+      welcomeMessage.textContent = '';
+      welcomeMessage.classList.add("hidden");
+    }
+
     if (menuContainer) menuContainer.innerHTML = '';
   }
 });
