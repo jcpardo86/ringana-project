@@ -12,11 +12,77 @@
   <!-- Librerías externas -->
   <script src="https://apis.google.com/js/api.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getFirestore, collection, getDocs, setDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC1D6o52R9eLzZBImfxer9QoE050XMIBys",
+      authDomain: "ringana-dbc59.firebaseapp.com",
+      projectId: "ringana-dbc59",
+      storageBucket: "ringana-dbc59.appspot.com",
+      messagingSenderId: "23497738168",
+      appId: "1:23497738168:web:415186e48b1d7968ce314d",
+      measurementId: "G-7TKM5BCZGV"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.guardarCopiaSeguridad = async function () {
+      const datos = { productos, clientas, bonos, ventas, socios, puntos, periodos };
+      const blob = new Blob([JSON.stringify(datos, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `backup_ringana_${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      alert("✅ Copia local descargada");
+    };
+
+    window.subirAFirebase = async function () {
+      const datos = { productos, clientas, bonos, ventas, socios, puntos, periodos };
+      try {
+        await setDoc(doc(db, "datos", "global"), datos);
+        alert("✅ Datos subidos a Firebase");
+      } catch (e) {
+        alert("❌ Error al subir a Firebase");
+        console.error(e);
+      }
+    };
+
+    window.descargarDeFirebase = async function () {
+      try {
+        const snap = await getDoc(doc(db, "datos", "global"));
+        if (snap.exists()) {
+          const data = snap.data();
+          productos = data.productos || [];
+          clientas = data.clientas || [];
+          bonos = data.bonos || [];
+          ventas = data.ventas || [];
+          socios = data.socios || [];
+          puntos = data.puntos || [];
+          periodos = data.periodos || [];
+          guardarLocalStorage();
+          alert("✅ Datos descargados de Firebase");
+        } else {
+          alert("⚠️ No se encontraron datos en Firebase");
+        }
+      } catch (e) {
+        alert("❌ Error al descargar de Firebase");
+        console.error(e);
+      }
+    };
+  </script>
 </head>
 
 <body class="bg-white p-6">
   <div class="container mx-auto max-w-4xl">
-
     <!-- Encabezado -->
     <header class="mb-8 text-center">
       <h1 class="text-4xl font-bold text-gray-800">Ringana Sales</h1>
@@ -33,45 +99,49 @@
     <main>
       <h2 class="text-4xl text-center font-bold text-blue-700 mb-10">📂 Gestión de Datos</h2>
 
-      <!-- Importar / Exportar -->
       <section id="datos" class="mb-12 bg-gray-100 p-6 rounded-lg shadow-md">
         <h3 class="text-2xl font-bold text-center mb-6">📥 Importar / Exportar Datos</h3>
 
         <!-- Importación -->
-<div class="mb-6">
-  <label for="importarArchivo" class="block font-medium mb-2">Importar archivo (.csv)</label>
-  <input type="file" id="importarArchivo" accept=".csv" class="border p-2 rounded w-full mb-2" />
-  <div class="flex gap-4 mt-2">
-    <button id="botonImportar"
-            onclick="importarDatos()"
-            class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded shadow transition disabled:opacity-50 disabled:cursor-not-allowed">
-      📥 Importar CSV
-    </button>
-    <button onclick="exportarDatos()" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded shadow transition">
-      📤 Exportar
-    </button>
-  </div>
-</div>
+        <div class="mb-6">
+          <label for="importarArchivo" class="block font-medium mb-2">Importar archivo (.csv)</label>
+          <input type="file" id="importarArchivo" accept=".csv" class="border p-2 rounded w-full mb-2" />
+          <div class="flex gap-4 mt-2">
+            <button id="botonImportar" onclick="importarDatos()" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded shadow">
+              📥 Importar CSV
+            </button>
+            <button onclick="exportarDatos()" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded shadow">
+              📤 Exportar
+            </button>
+          </div>
+        </div>
 
-<!-- Copia de seguridad -->
-<div>
-  <h4 class="text-xl font-semibold mb-2">💾 Copia de Seguridad</h4>
-  <label for="cargarCopiaSeguridad" class="block font-medium mb-2">Seleccionar archivo (.json)</label>
-  <input type="file" id="cargarCopiaSeguridad" accept=".json" class="border p-2 rounded w-full mb-2" />
-  <div class="flex flex-wrap gap-4 mt-2">
-    <button id="botonRestaurar"
-            onclick="restaurarCopiaSeguridad()"
-            class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded shadow transition disabled:opacity-50 disabled:cursor-not-allowed">
-      🔄 Restaurar
-    </button>
-    <button onclick="guardarCopiaSeguridad()" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded shadow transition">
-      💾 Guardar
-    </button>
-    <button onclick="borrarLocalStorage()" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded shadow transition">
-      🗑️ Borrar Todo
-    </button>
+        <!-- Copia de seguridad -->
+        <div class="space-y-2">
+          <h4 class="text-xl font-semibold">💾 Copia de Seguridad</h4>
+          <input type="file" id="cargarCopiaSeguridad" accept=".json" class="border p-2 rounded w-full" />
+
+          <div class="flex flex-wrap gap-3 mt-2">
+            <button id="botonRestaurar" onclick="restaurarCopiaSeguridad()" class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded shadow">
+              🔄 Restaurar
+            </button>
+            <button onclick="guardarCopiaSeguridad()" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded shadow">
+              💾 Descargar Backup
+            </button>
+            <button onclick="subirAFirebase()" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded shadow">
+              ☁️ Subir a Firebase
+            </button>
+            <button onclick="descargarDeFirebase()" class="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded shadow">
+              🔽 Cargar desde Firebase
+            </button>
+            <button onclick="borrarLocalStorage()" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded shadow">
+              🗑️ Borrar Todo
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
   </div>
-</div>
 
   <!-- Cargar menú -->
   <script>

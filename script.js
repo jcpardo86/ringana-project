@@ -29,7 +29,7 @@ let periodos = JSON.parse(localStorage.getItem('periodos')) || [];
 let orden = 'reciente'; // Orden por defecto
 
 // --------------------------- UTILIDADES ---------------------------
-function guardarLocalStorage() {
+async function guardarLocalStorage() {
   localStorage.setItem('productos', JSON.stringify(productos));
   localStorage.setItem('clientas', JSON.stringify(clientas));
   localStorage.setItem('bonos', JSON.stringify(bonos));
@@ -37,6 +37,17 @@ function guardarLocalStorage() {
   localStorage.setItem('socios', JSON.stringify(socios));
   localStorage.setItem('puntos', JSON.stringify(puntos));
   localStorage.setItem('periodos', JSON.stringify(periodos));
+
+  // 🔄 También guarda en Firebase
+  const datos = {
+    productos, clientas, bonos, ventas, socios, puntos, periodos
+  };
+  try {
+    await setDoc(doc(db, "backup", "datos"), datos);
+    console.log("📦 Datos sincronizados con Firebase");
+  } catch (e) {
+    console.error("❌ Error al guardar en Firebase", e);
+  }
 }
 
 function borrarLocalStorage() {
@@ -1217,7 +1228,28 @@ function crearEventoGoogleCalendar(titulo, fechaInicio, descripcion) {
 
 
 // --------------------------- INICIALIZACIÓN ---------------------------
-window.onload = function() {
+window.onload = async function() {
+  try {
+    const docSnap = await getDoc(doc(db, "backup", "datos"));
+    if (docSnap.exists()) {
+      const datos = docSnap.data();
+      productos = datos.productos || [];
+      clientas = datos.clientas || [];
+      bonos = datos.bonos || [];
+      ventas = datos.ventas || [];
+      socios = datos.socios || [];
+      puntos = datos.puntos || [];
+      periodos = datos.periodos || [];
+
+      guardarLocalStorage(); // 🔁 Refresca el localStorage
+      console.log("✅ Datos cargados desde Firebase");
+    } else {
+      console.log("⚠️ No hay datos en Firebase todavía.");
+    }
+  } catch (error) {
+    console.error("❌ Error al cargar desde Firebase", error);
+  }
+  
   // Si existe el campo de fecha de venta, asigna la fecha actual
   const fechaVentaEl = document.getElementById('fechaVenta');
   if (fechaVentaEl) {
