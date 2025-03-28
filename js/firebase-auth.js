@@ -91,8 +91,8 @@ onAuthStateChanged(auth, user => {
       welcomeMessage.classList.remove("hidden");
     }
 
-    // Cargar menú
-    fetch("pages/modulos/menu.html")
+    // Cargar menú desde la raíz del sitio
+    fetch("/ringana-project/pages/modulos/menu.html")
       .then(res => res.text())
       .then(html => {
         if (menuContainer) menuContainer.innerHTML = html;

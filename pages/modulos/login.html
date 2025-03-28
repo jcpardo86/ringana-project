@@ -27,8 +27,22 @@
     <div id="loginContainer" class="max-w-sm mx-auto mt-10">
       <h2 class="text-xl mb-4 text-center">🔐 Iniciar sesión</h2>
       <form onsubmit="event.preventDefault(); login();">
-        <input id="email" type="email" placeholder="Correo" class="border p-2 w-full mb-2 rounded" required />
-        <input id="password" type="password" placeholder="Contraseña" class="border p-2 w-full mb-4 rounded" required />
+        <input
+          id="email"
+          type="email"
+          placeholder="Correo"
+          class="border p-2 w-full mb-2 rounded"
+          autocomplete="email"
+          required
+        />
+        <input
+          id="password"
+          type="password"
+          placeholder="Contraseña"
+          class="border p-2 w-full mb-4 rounded"
+          autocomplete="current-password"
+          required
+        />
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded w-full">Entrar</button>
       </form>
       <p class="text-center mt-4 text-sm">
@@ -41,13 +55,34 @@
     <div id="registerContainer" class="max-w-sm mx-auto mt-10 hidden">
       <h2 class="text-xl mb-4 text-center">📝 Crear cuenta</h2>
       <form onsubmit="event.preventDefault(); register();">
-        <input id="regName" type="text" placeholder="Nombre completo" class="border p-2 w-full mb-2 rounded" required />
-        <input id="regEmail" type="email" placeholder="Correo" class="border p-2 w-full mb-2 rounded" required />
-        <input id="regPassword" type="password" placeholder="Contraseña" class="border p-2 w-full mb-4 rounded" required />
+        <input
+          id="regName"
+          type="text"
+          placeholder="Nombre completo"
+          class="border p-2 w-full mb-2 rounded"
+          autocomplete="name"
+          required
+        />
+        <input
+          id="regEmail"
+          type="email"
+          placeholder="Correo"
+          class="border p-2 w-full mb-2 rounded"
+          autocomplete="email"
+          required
+        />
+        <input
+          id="regPassword"
+          type="password"
+          placeholder="Contraseña"
+          class="border p-2 w-full mb-4 rounded"
+          autocomplete="new-password"
+          required
+        />
         <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded w-full">Crear cuenta</button>
       </form>
       <p class="text-center mt-4 text-sm">
-        ¿Ya tienes cuenta?
+        ¿Ya tenés cuenta?
         <button onclick="showLogin()" class="text-blue-600 underline">Iniciar sesión</button>
       </p>
     </div>
