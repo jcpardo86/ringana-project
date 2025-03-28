@@ -11,7 +11,7 @@
   <!-- Estilos personalizados -->
   <link rel="stylesheet" href="/ringana-project/style.css" />
 
-  <!-- Firebase SDKs -->
+  <!-- Firebase App y Auth -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
     import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
@@ -29,7 +29,20 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth();
 
-    // GUARD: Bloquea la app si no hay sesión
+    window.login = async function () {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+      } catch (error) {
+        alert("❌ Error al iniciar sesión: " + error.message);
+      }
+    };
+
+    window.logout = async function () {
+      await signOut(auth);
+    };
+
     onAuthStateChanged(auth, user => {
       const loginContainer = document.getElementById("loginContainer");
       const appContainer = document.getElementById("appContainer");
@@ -37,12 +50,10 @@
       const menuContainer = document.getElementById("menu-container");
 
       if (user) {
-        // Mostrar contenido privado
-        loginContainer.classList.add("hidden");
-        appContainer.classList.remove("hidden");
-        logoutButton.classList.remove("hidden");
+        loginContainer?.classList.add("hidden");
+        appContainer?.classList.remove("hidden");
+        logoutButton?.classList.remove("hidden");
 
-        // Cargar el menú
         fetch("/ringana-project/pages/modulos/menu.html")
           .then(res => res.text())
           .then(html => {
@@ -50,30 +61,12 @@
           })
           .catch(error => console.error("No se pudo cargar el menú:", error));
       } else {
-        // Mostrar solo login
-        loginContainer.classList.remove("hidden");
-        appContainer.classList.add("hidden");
-        logoutButton.classList.add("hidden");
+        loginContainer?.classList.remove("hidden");
+        appContainer?.classList.add("hidden");
+        logoutButton?.classList.add("hidden");
         if (menuContainer) menuContainer.innerHTML = '';
       }
     });
-
-    // Login
-    window.login = async function () {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        console.log("✅ Login correcto");
-      } catch (error) {
-        alert("Error al iniciar sesión: " + error.message);
-      }
-    };
-
-    // Logout
-    window.logout = async function () {
-      await signOut(auth);
-    };
   </script>
 </head>
 
@@ -97,7 +90,7 @@
     </div>
 
     <!-- BOTÓN CERRAR SESIÓN -->
-    <div class="text-right">
+    <div class="text-right mb-4">
       <button id="logoutButton" onclick="logout()" class="hidden bg-red-600 text-white px-4 py-2 rounded">
         Cerrar sesión
       </button>
@@ -115,7 +108,9 @@
         </p>
       </section>
     </div>
-
   </div>
+
+  <!-- 🔒 Protege esta página -->
+  <script type="module" src="/ringana-project/auth-guard.js"></script>
 </body>
 </html>
