@@ -1227,6 +1227,38 @@ function crearEventoGoogleCalendar(titulo, fechaInicio, descripcion) {
 */
 
 
+// --------------------------- LOGIN ---------------------------
+
+async function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  try {
+    const { auth, signInWithEmailAndPassword } = window.firebaseAuth;
+    await signInWithEmailAndPassword(auth, email, password);
+    alert("¡Sesión iniciada con éxito!");
+  } catch (error) {
+    alert("Error al iniciar sesión: " + error.message);
+  }
+}
+
+function logout() {
+  const { auth, signOut } = window.firebaseAuth;
+  signOut(auth);
+}
+
+window.firebaseAuth.onAuthStateChanged(window.firebaseAuth.auth, user => {
+  if (user) {
+    document.getElementById("loginContainer").classList.add("hidden");
+    document.getElementById("appContainer").classList.remove("hidden");
+    console.log("Usuario logueado:", user.email);
+  } else {
+    document.getElementById("loginContainer").classList.remove("hidden");
+    document.getElementById("appContainer").classList.add("hidden");
+    console.log("Usuario deslogueado");
+  }
+});
+
+
 // --------------------------- INICIALIZACIÓN ---------------------------
 window.onload = async function() {
   try {
@@ -1249,7 +1281,7 @@ window.onload = async function() {
   } catch (error) {
     console.error("❌ Error al cargar desde Firebase", error);
   }
-  
+
   // Si existe el campo de fecha de venta, asigna la fecha actual
   const fechaVentaEl = document.getElementById('fechaVenta');
   if (fechaVentaEl) {

@@ -14,10 +14,34 @@
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js"></script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
   
+    const firebaseConfig = {
+      apiKey: "AIzaSyC1D6o52R9eLzZBImfxer9QoE050XMIBys",
+      authDomain: "ringana-dbc59.firebaseapp.com",
+      projectId: "ringana-dbc59",
+      storageBucket: "ringana-dbc59.firebasestorage.app",
+      messagingSenderId: "23497738168",
+      appId: "1:23497738168:web:415186e48b1d7968ce314d",
+      measurementId: "G-7TKM5BCZGV"
+    };
+  
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+  
+    window.firebaseAuth = { auth, onAuthStateChanged, signInWithEmailAndPassword, signOut };
+  </script>
+    
   <!-- Script principal -->
   <script type="module" src="/ringana-project/script.js"></script>
+
+
 </head>
+
+
 <body class="bg-white p-6">
   <div class="container mx-auto max-w-4xl">
     
@@ -31,6 +55,24 @@
 
     <!-- Menú dinámico -->
     <div id="menu-container" class="mb-6"></div>
+    <!-- LOGIN -->
+
+    <div id="loginContainer" class="max-w-sm mx-auto mt-10">
+      <h2 class="text-xl mb-4">🔐 Iniciar sesión</h2>
+      <input id="email" type="email" placeholder="Correo" class="border p-2 w-full mb-2 rounded" />
+      <input id="password" type="password" placeholder="Contraseña" class="border p-2 w-full mb-4 rounded" />
+      <button onclick="login()" class="bg-blue-600 text-white px-4 py-2 rounded w-full">Entrar</button>
+    </div>
+    <!-- CERRAR SESION -->
+
+    <button onclick="logout()" class="mt-4 bg-red-600 text-white px-4 py-2 rounded">
+      Cerrar sesión
+    </button>
+    
+    <div id="appContainer" class="hidden">
+      <!-- Aquí va tu app, lo ocultamos si no está logueado -->
+    </div>
+    
 
     <!-- Contenido principal -->
     <section class="text-center">
