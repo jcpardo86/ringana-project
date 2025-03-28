@@ -135,14 +135,19 @@
     import {
       toggleProductos,
       agregarProducto,
+      cargarProductos,
       toggleClientas,
       agregarClienta,
+      cargarClientas,
       toggleBonos,
       agregarBono,
+      cargarBonos,
       toggleSocios,
-      agregarSocio
+      agregarSocio,
+      cargarSocios
     } from "/ringana-project/js/recursos.js";
   
+    // Exponer funciones necesarias al scope global
     window.toggleProductos = toggleProductos;
     window.agregarProducto = agregarProducto;
     window.toggleClientas = toggleClientas;
@@ -151,7 +156,14 @@
     window.agregarBono = agregarBono;
     window.toggleSocios = toggleSocios;
     window.agregarSocio = agregarSocio;
+  
+    // Cargar datos al iniciar
+    cargarProductos();
+    cargarClientas();
+    cargarBonos();
+    cargarSocios();
   </script>
+  
   
 
 </body>
