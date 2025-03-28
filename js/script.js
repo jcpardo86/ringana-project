@@ -1247,6 +1247,9 @@ function logout() {
   signOut(auth);
 }
 
+firebase.initializeApp(firebaseConfig);
+window.firebaseAuth = firebase.auth();
+
 window.firebaseAuth.onAuthStateChanged(window.firebaseAuth.auth, user => {
   if (user) {
     document.getElementById("loginContainer").classList.add("hidden");
