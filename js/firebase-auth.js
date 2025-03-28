@@ -52,13 +52,12 @@ window.register = async function () {
   }
 };
 
-// MOSTRAR FORMULARIO DE REGISTRO
+// CAMBIAR ENTRE LOGIN Y REGISTRO
 window.showRegister = () => {
   document.getElementById("loginContainer")?.classList.add("hidden");
   document.getElementById("registerContainer")?.classList.remove("hidden");
 };
 
-// VOLVER A LOGIN
 window.showLogin = () => {
   document.getElementById("registerContainer")?.classList.add("hidden");
   document.getElementById("loginContainer")?.classList.remove("hidden");
@@ -72,7 +71,15 @@ onAuthStateChanged(auth, user => {
   const menuContainer = document.getElementById("menu-container");
   const welcomeMessage = document.getElementById("welcomeMessage");
 
+  const isLoginPage = window.location.pathname.includes("login.html");
+
   if (user) {
+    // Si está logado y en login.html, redirigir al index
+    if (isLoginPage) {
+      window.location.href = "/ringana-project/index.html";
+      return;
+    }
+
     loginContainer?.classList.add("hidden");
     appContainer?.classList.remove("hidden");
     logoutButton?.classList.remove("hidden");
@@ -87,11 +94,11 @@ onAuthStateChanged(auth, user => {
         name = user.email.split("@")[0];
       }
 
-      welcomeMessage.textContent = `Bienvenid@ ${name}`;
+      welcomeMessage.innerHTML = `👋 Bienvenid@ <span class="font-semibold text-blue-700">${name}</span> 👤`;
       welcomeMessage.classList.remove("hidden");
     }
 
-    // Cargar menú desde la raíz del sitio
+    // Cargar menú
     fetch("/ringana-project/pages/modulos/menu.html")
       .then(res => res.text())
       .then(html => {
@@ -111,5 +118,10 @@ onAuthStateChanged(auth, user => {
     }
 
     if (menuContainer) menuContainer.innerHTML = '';
+
+    // Si no está logado y no está en login.html, redirigir
+    if (!isLoginPage) {
+      window.location.href = "/ringana-project/login.html";
+    }
   }
 });
