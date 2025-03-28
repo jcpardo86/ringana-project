@@ -1,4 +1,3 @@
-<!-- login.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,51 +8,52 @@
   <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 
-  <!-- Firebase SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyC1D6o52R9eLzZBImfxer9QoE050XMIBys",
-      authDomain: "ringana-dbc59.firebaseapp.com",
-      projectId: "ringana-dbc59",
-      storageBucket: "ringana-dbc59.firebasestorage.app",
-      messagingSenderId: "23497738168",
-      appId: "1:23497738168:web:415186e48b1d7968ce314d"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth();
-
-    window.login = async function () {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        window.location.href = "/ringana-project/index.html";
-      } catch (error) {
-        alert("❌ Error de autenticación: " + error.message);
-      }
-    };
-  </script>
+  <!-- Estilos personalizados -->
+  <link rel="stylesheet" href="/ringana-project/style.css" />
 </head>
+
 <body class="bg-white p-6">
   <div class="container mx-auto max-w-4xl">
 
-    <!-- Encabezado con logo -->
+    <!-- Encabezado -->
     <header class="mb-8 text-center">
       <h1 class="text-4xl font-bold text-gray-800">Ringana Partner Sales</h1>
-      <img src="/ringana-project/img/logo.png" alt="Logo de Ringana Sales" class="w-64 h-64 mx-auto mt-4" />
+      <a href="/ringana-project/index.html" title="Volver al inicio">
+        <img src="/ringana-project/img/logo.png" alt="Logo de Ringana Sales" class="w-64 h-64 mx-auto mt-4" />
+      </a>
     </header>
 
-    <!-- LOGIN -->
-    <div class="max-w-sm mx-auto mt-10">
+    <!-- FORMULARIO DE LOGIN -->
+    <div id="loginContainer" class="max-w-sm mx-auto mt-10">
       <h2 class="text-xl mb-4 text-center">🔐 Iniciar sesión</h2>
-      <input id="email" type="email" placeholder="Correo" class="border p-2 w-full mb-2 rounded" />
-      <input id="password" type="password" placeholder="Contraseña" class="border p-2 w-full mb-4 rounded" />
-      <button onclick="login()" class="bg-blue-600 text-white px-4 py-2 rounded w-full">Entrar</button>
+      <form onsubmit="event.preventDefault(); login();">
+        <input id="email" type="email" placeholder="Correo" class="border p-2 w-full mb-2 rounded" required />
+        <input id="password" type="password" placeholder="Contraseña" class="border p-2 w-full mb-4 rounded" required />
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded w-full">Entrar</button>
+      </form>
+      <p class="text-center mt-4 text-sm">
+        ¿No tenés cuenta?
+        <button onclick="showRegister()" class="text-blue-600 underline">Registrate</button>
+      </p>
+    </div>
+
+    <!-- FORMULARIO DE REGISTRO -->
+    <div id="registerContainer" class="max-w-sm mx-auto mt-10 hidden">
+      <h2 class="text-xl mb-4 text-center">📝 Crear cuenta</h2>
+      <form onsubmit="event.preventDefault(); register();">
+        <input id="regName" type="text" placeholder="Nombre completo" class="border p-2 w-full mb-2 rounded" required />
+        <input id="regEmail" type="email" placeholder="Correo" class="border p-2 w-full mb-2 rounded" required />
+        <input id="regPassword" type="password" placeholder="Contraseña" class="border p-2 w-full mb-4 rounded" required />
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded w-full">Crear cuenta</button>
+      </form>
+      <p class="text-center mt-4 text-sm">
+        ¿Ya tienes cuenta?
+        <button onclick="showLogin()" class="text-blue-600 underline">Iniciar sesión</button>
+      </p>
     </div>
   </div>
+
+  <!-- Firebase JS organizado -->
+  <script type="module" src="/ringana-project/js/firebase-auth.js"></script>
 </body>
 </html>

@@ -1,6 +1,12 @@
-// js/firebase-auth.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+  createUserWithEmailAndPassword,
+  updateProfile
+} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC1D6o52R9eLzZBImfxer9QoE050XMIBys",
@@ -14,6 +20,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
+// LOGIN
 window.login = async function () {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
@@ -24,10 +31,40 @@ window.login = async function () {
   }
 };
 
+// LOGOUT
 window.logout = async function () {
   await signOut(auth);
 };
 
+// REGISTRO
+window.register = async function () {
+  const name = document.getElementById("regName").value;
+  const email = document.getElementById("regEmail").value;
+  const password = document.getElementById("regPassword").value;
+
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(userCredential.user, { displayName: name });
+
+    window.location.href = "/ringana-project/index.html";
+  } catch (error) {
+    alert("❌ Error al registrar: " + error.message);
+  }
+};
+
+// MOSTRAR FORMULARIO DE REGISTRO
+window.showRegister = () => {
+  document.getElementById("loginContainer")?.classList.add("hidden");
+  document.getElementById("registerContainer")?.classList.remove("hidden");
+};
+
+// VOLVER A LOGIN
+window.showLogin = () => {
+  document.getElementById("registerContainer")?.classList.add("hidden");
+  document.getElementById("loginContainer")?.classList.remove("hidden");
+};
+
+// CONTROL DE SESIÓN Y CARGA DEL MENÚ
 onAuthStateChanged(auth, user => {
   const loginContainer = document.getElementById("loginContainer");
   const appContainer = document.getElementById("appContainer");
@@ -40,14 +77,21 @@ onAuthStateChanged(auth, user => {
     appContainer?.classList.remove("hidden");
     logoutButton?.classList.remove("hidden");
 
-    // Mostrar mensaje de bienvenida
+    // Mostrar mensaje de bienvenida con nombre limpio
     if (welcomeMessage) {
-      const name = user.displayName || user.email || "Usuario";
+      let name = "Usuario";
+
+      if (user.displayName) {
+        name = user.displayName;
+      } else if (user.email) {
+        name = user.email.split("@")[0];
+      }
+
       welcomeMessage.textContent = `Bienvenid@ ${name}`;
       welcomeMessage.classList.remove("hidden");
     }
 
-    // Cargar el menú dinámico
+    // Cargar menú
     fetch("pages/modulos/menu.html")
       .then(res => res.text())
       .then(html => {
@@ -61,7 +105,6 @@ onAuthStateChanged(auth, user => {
     appContainer?.classList.add("hidden");
     logoutButton?.classList.add("hidden");
 
-    // Ocultar mensaje de bienvenida
     if (welcomeMessage) {
       welcomeMessage.textContent = '';
       welcomeMessage.classList.add("hidden");
