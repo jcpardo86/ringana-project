@@ -14,7 +14,8 @@ const firebaseConfig = {
 
 // ESTA LÍNEA FALTABA 👇
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app); // ← ahora sí tienes acceso a la base de datos
+const db = getFirestore(app); 
+console.log("🔥 Inicializado Firebase");
 
 "use strict";
 
