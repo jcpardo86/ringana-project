@@ -1,3 +1,21 @@
+// 🔥 PASO 3: Inicializar Firebase
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+import { getFirestore, collection, getDocs, setDoc, doc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC1D6o52R9eLzZBImfxer9QoE050XMIBys",
+  authDomain: "ringana-dbc59.firebaseapp.com",
+  projectId: "ringana-dbc59",
+  storageBucket: "ringana-dbc59.firebasestorage.app",
+  messagingSenderId: "23497738168",
+  appId: "1:23497738168:web:415186e48b1d7968ce314d",
+  measurementId: "G-7TKM5BCZGV"
+};
+
+// ESTA LÍNEA FALTABA 👇
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app); // ← ahora sí tienes acceso a la base de datos
+
 "use strict";
 
 // --------------------------- VARIABLES GLOBALES ---------------------------
