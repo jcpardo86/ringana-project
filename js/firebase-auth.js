@@ -41,11 +41,15 @@ function logout() {
 }
 
 // Hacerla accesible desde botones onclick
-window.logout = logout;
-
 window.logout = async function () {
-  await signOut(auth);
+  try {
+    await signOut(auth);
+    console.log("🔓 Sesión cerrada");
+  } catch (error) {
+    console.error("❌ Error al cerrar sesión:", error);
+  }
 };
+
 
 // REGISTRO
 window.register = async function () {
