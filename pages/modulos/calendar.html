@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calendario - Ringana</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/ringana-project/style.css" />
+  <script src="https://apis.google.com/js/api.js"></script>
+</head>
+<body class="bg-white p-6">
+  <div class="container mx-auto max-w-5xl">
+    <header class="mb-8 text-center">
+      <h1 class="text-4xl font-bold text-gray-800">🗓️ Calendario de Eventos</h1>
+      <a href="/ringana-project/index.html">
+        <img src="/ringana-project/img/logo.png" class="w-64 h-64 mx-auto mt-4" alt="Logo Ringana">
+      </a>
+    </header>
+
+    <div id="menu-container" class="mb-6"></div>
+
+    <section class="bg-gray-100 p-6 rounded-lg shadow">
+      <h2 class="text-2xl font-semibold mb-4">📅 Agenda</h2>
+      <div class="mb-4 flex gap-4">
+        <button onclick="conectarConGoogleCalendar()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">🔐 Conectar con Google Calendar</button>
+        <button onclick="crearEvento()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">➕ Crear Evento</button>
+      </div>
+      <div id="eventos" class="bg-white p-4 rounded border"></div>
+    </section>
+  </div>
+
+  <!-- Cargar menú -->
+  <script>
+    fetch("/ringana-project/pages/modulos/menu.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById("menu-container").innerHTML = html;
+      });
+  </script>
+
+  <!-- Proteccion con Firebase -->
+  <script type="module">
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC1D6o52R9eLzZBImfxer9QoE050XMIBys",
+      authDomain: "ringana-dbc59.firebaseapp.com",
+      projectId: "ringana-dbc59",
+      storageBucket: "ringana-dbc59.firebasestorage.app",
+      messagingSenderId: "23497738168",
+      appId: "1:23497738168:web:415186e48b1d7968ce314d"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+
+    onAuthStateChanged(auth, user => {
+      if (!user) {
+        window.location.href = "/ringana-project/pages/modulos/login.html";
+      }
+    });
+  </script>
+
+  <!-- Funciones del calendario -->
+  <script type="module">
+    import { conectarConGoogleCalendar, crearEvento } from "/ringana-project/js/calendar.js";
+    window.conectarConGoogleCalendar = conectarConGoogleCalendar;
+    window.crearEvento = crearEvento;
+  </script>
+</body>
+</html>
