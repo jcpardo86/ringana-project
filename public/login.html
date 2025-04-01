@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login / Registro | Ringana</title>
+  <link rel="stylesheet" href="/assets/css/auth.css" />
+  <link rel="stylesheet" href="/assets/css/tailwind.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Bienvenido a Ringana</h1>
+
+    <!-- Login -->
+    <div id="loginContainer">
+      <h2>Iniciar Sesión</h2>
+      <form id="loginForm">
+        <input type="email" id="email" placeholder="Correo electrónico" required />
+        <input type="password" id="password" placeholder="Contraseña" required />
+        <button type="submit">Ingresar</button>
+      </form>
+      <p>¿No tienes cuenta? <a href="#" onclick="showRegister()">Regístrate</a></p>
+    </div>
+
+    <!-- Registro -->
+    <div id="registerContainer" class="hidden">
+      <h2>Crear Cuenta</h2>
+      <form id="registerForm">
+        <input type="text" id="regName" placeholder="Nombre completo" required />
+        <input type="email" id="regEmail" placeholder="Correo electrónico" required />
+        <input type="password" id="regPassword" placeholder="Contraseña" required />
+        <input type="file" id="regProfilePic" accept="image/*" />
+        <button type="submit">Registrarse</button>
+      </form>
+      <p>¿Ya tienes cuenta? <a href="#" onclick="showLogin()">Inicia sesión</a></p>
+    </div>
+  </div>
+
+  <!-- Lógica de login/registro -->
+  <script type="module" src="/assets/js/auth.js"></script>
+</body>
+</html>

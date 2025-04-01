@@ -1,0 +1,43 @@
+body {
+    font-family: sans-serif;
+    background-color: #f9fafb;
+    padding: 2rem;
+  }
+  
+  .container {
+    max-width: 400px;
+    margin: 0 auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  input, button {
+    display: block;
+    width: 100%;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  button {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #2563eb;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  h1, h2 {
+    text-align: center;
+  }
+  
