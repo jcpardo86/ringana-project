@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registro | Ringana</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 400px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+    input, button {
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Crear Cuenta en Ringana</h1>
+
+  <form onsubmit="register(); return false;">
+    <input type="text" id="regName" placeholder="Nombre completo" required />
+    <input type="email" id="regEmail" placeholder="Correo electrónico" required />
+    <input type="password" id="regPassword" placeholder="Contraseña" required />
+    <label for="regProfilePic">Foto de perfil (opcional):</label>
+    <input type="file" id="regProfilePic" accept="image/*" />
+    <button type="submit">Registrarse</button>
+  </form>
+
+  <p>¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a></p>
+
+  <script type="module" src="/ringana-project/js/firebase-auth.js"></script>
+</body>
+</html>
