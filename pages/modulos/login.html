@@ -2,92 +2,73 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login - Ringana Partner Sales</title>
-
-  <!-- Tailwind CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-
-  <!-- Estilos personalizados -->
-  <link rel="stylesheet" href="/ringana-project/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Iniciar Sesión</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
+<body>
+  <h1>Iniciar Sesión</h1>
 
-<body class="bg-white p-6">
-  <div class="container mx-auto max-w-4xl">
+  <form id="loginForm">
+    <label for="email">Correo:</label>
+    <input type="email" id="email" required /><br />
 
-    <!-- Encabezado -->
-    <header class="mb-8 text-center">
-      <h1 class="text-4xl font-bold text-gray-800">Ringana Partner Sales</h1>
-      <a href="/ringana-project/index.html" title="Volver al inicio">
-        <img src="/ringana-project/img/logo.png" alt="Logo de Ringana Sales" class="w-64 h-64 mx-auto mt-4" />
-      </a>
-    </header>
+    <label for="password">Contraseña:</label>
+    <input type="password" id="password" required /><br />
 
-    <!-- FORMULARIO DE LOGIN -->
-    <div id="loginContainer" class="max-w-sm mx-auto mt-10">
-      <h2 class="text-xl mb-4 text-center">🔐 Iniciar sesión</h2>
-      <form onsubmit="event.preventDefault(); login();">
-        <input
-          id="email"
-          type="email"
-          placeholder="Correo"
-          class="border p-2 w-full mb-2 rounded"
-          autocomplete="email"
-          required
-        />
-        <input
-          id="password"
-          type="password"
-          placeholder="Contraseña"
-          class="border p-2 w-full mb-4 rounded"
-          autocomplete="current-password"
-          required
-        />
-        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded w-full">Entrar</button>
-      </form>
-      <p class="text-center mt-4 text-sm">
-        ¿No tenés cuenta?
-        <button onclick="showRegister()" class="text-blue-600 underline">Registrate</button>
-      </p>
-    </div>
+    <button type="submit">Iniciar Sesión</button>
+  </form>
 
-    <!-- FORMULARIO DE REGISTRO -->
-    <div id="registerContainer" class="max-w-sm mx-auto mt-10 hidden">
-      <h2 class="text-xl mb-4 text-center">📝 Crear cuenta</h2>
-      <form onsubmit="event.preventDefault(); register();">
-        <input
-          id="regName"
-          type="text"
-          placeholder="Nombre completo"
-          class="border p-2 w-full mb-2 rounded"
-          autocomplete="name"
-          required
-        />
-        <input
-          id="regEmail"
-          type="email"
-          placeholder="Correo"
-          class="border p-2 w-full mb-2 rounded"
-          autocomplete="email"
-          required
-        />
-        <input
-          id="regPassword"
-          type="password"
-          placeholder="Contraseña"
-          class="border p-2 w-full mb-4 rounded"
-          autocomplete="new-password"
-          required
-        />
-        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded w-full">Crear cuenta</button>
-      </form>
-      <p class="text-center mt-4 text-sm">
-        ¿Ya tenés cuenta?
-        <button onclick="showLogin()" class="text-blue-600 underline">Iniciar sesión</button>
-      </p>
-    </div>
-  </div>
-  <script type="module" src="/ringana-project/js/script.js"></script>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
 
+  <!-- Configuración de Firebase -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "TU_API_KEY",
+      authDomain: "TU_AUTH_DOMAIN",
+      projectId: "TU_PROJECT_ID",
+      storageBucket: "TU_BUCKET",
+      messagingSenderId: "TU_SENDER_ID",
+      appId: "TU_APP_ID"
+    };
+
+    // Inicializar Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Inicializar Firebase Auth
+    const auth = firebase.auth();
+
+    // Exponer funciones necesarias a nivel global
+    window.firebaseAuth = {
+      auth,
+      signInWithEmailAndPassword: firebase.auth().signInWithEmailAndPassword.bind(firebase.auth()),
+      signOut: firebase.auth().signOut.bind(firebase.auth()),
+    };
+  </script>
+
+  <!-- Tu lógica de login -->
+  <script>
+    async function login(event) {
+      event.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        const { auth, signInWithEmailAndPassword } = window.firebaseAuth;
+        await signInWithEmailAndPassword(email, password);
+        alert("¡Sesión iniciada con éxito!");
+        window.location.href = "dashboard.html"; // cambia si deseas redirigir a otra página
+      } catch (error) {
+        alert("Error al iniciar sesión: " + error.message);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("loginForm").addEventListener("submit", login);
+    });
+  </script>
 </body>
 </html>
