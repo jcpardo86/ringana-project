@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "firebase-auth.js",
   "scripts": {
-  "build:css": "tailwindcss -i ./src/style.css -o ./public/assets/css/tailwind.css --watch"
+    "build:css": "tailwindcss -i ./src/style.css -o ./public/assets/css/tailwind.css --watch"
   },
   "keywords": [],
   "author": "",
